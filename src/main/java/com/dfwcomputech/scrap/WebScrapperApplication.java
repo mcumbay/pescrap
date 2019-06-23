@@ -15,6 +15,7 @@ public class WebScrapperApplication {
 	public static void  main(String[] args ) {
 	    String searchQuery = "iphone 6s" ;
 		String baseUrl = "https://newyork.craigslist.org/" ;
+		
 		WebClient client = new WebClient();
 		client.getOptions().setCssEnabled(false);
 		client.getOptions().setJavaScriptEnabled(false);
