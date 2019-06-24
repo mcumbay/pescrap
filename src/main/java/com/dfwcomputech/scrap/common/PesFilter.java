@@ -3,7 +3,12 @@ package com.dfwcomputech.scrap.common;
 public class PesFilter {
 	private String name;
 	private String value;
-	
+		
+	public PesFilter(String name, String value) {
+		super();
+		this.name = name;
+		this.value = value;
+	}
 	public String getName() {
 		return name;
 	}

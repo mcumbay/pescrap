@@ -2,11 +2,20 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	
 	<groupId>com.dfwcomputech.scrap</groupId>
-	<artifactId>pes19</artifactId>
+	<artifactId>pescrap19</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Web ScrappingPes 2019</name>
+	
+	<name>Pescrapping 2019</name>	
 	<description>Basic web scrapping tool to extract PES 2019 stats	</description>
+	
+	<parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.6.RELEASE</version>
+    </parent>
+    
 	<properties>
 		<java.version>11</java.version>
     	<maven.compiler.source>${java.version}</maven.compiler.source>
@@ -14,6 +23,15 @@
 	</properties>
 
 	<dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>	
 		<dependency>
 		    <groupId>net.sourceforge.htmlunit</groupId>
 		    <artifactId>htmlunit</artifactId>
@@ -38,5 +56,13 @@
 		</dependency>
 	</dependencies>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

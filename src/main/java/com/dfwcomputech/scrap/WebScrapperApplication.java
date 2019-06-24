@@ -1,58 +1,48 @@
 package com.dfwcomputech.scrap;
 
-import java.math.BigDecimal;
-import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.dfwcomputech.scrap.common.PesFilter;
+import com.dfwcomputech.scrap.domain.PesPlayer;
+import com.dfwcomputech.scrap.service.SearchService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class WebScrapperApplication {
 
-	public static void  main(String[] args ) {
-	    String searchQuery = "iphone 6s" ;
-		String baseUrl = "https://newyork.craigslist.org/" ;
+	public static void main(String[] args ) {
 		
-		WebClient client = new WebClient();
-		client.getOptions().setCssEnabled(false);
-		client.getOptions().setJavaScriptEnabled(false);
+		System.out.println("Test");
+		SearchService searchService = new SearchService();
 		
-		try {
-			String searchUrl = baseUrl + "search/sss?sort=rel&query=" + URLEncoder.encode(searchQuery, "UTF-8");	
-			HtmlPage page = client.getPage(searchUrl);
-			
-			List<HtmlElement> items = page.getByXPath("//li[@class='result-row']") ;
-			if(items.isEmpty()){
-				System.out.println("No items found !");
-			}
-			else{
-				
-				items.forEach(htmlItem->{
-					HtmlAnchor itemAnchor = ((HtmlAnchor) htmlItem.getFirstByXPath(".//p[@class='result-info']/a"));
-					HtmlElement spanPrice = ((HtmlElement) htmlItem.getFirstByXPath(".//a/span[@class='result-price']"));
-					String itemPrice = spanPrice == null ? "0.0" : spanPrice.asText() ;
-					
-					Item item = new Item();
-					item.setTitle(itemAnchor.asText());
-					item.setUrl( baseUrl + itemAnchor.getHrefAttribute());
-					item.setPrice(new BigDecimal(itemPrice.replace("$", "")));
-					
-					ObjectMapper mapper = new ObjectMapper();
-					try {
-						String jsonString = mapper.writeValueAsString(item) ;						
-						System.out.println(jsonString);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					
-				});
-			}
-		} catch(Exception e){
-			e.printStackTrace();
-		}
-
+		List<PesPlayer> results = searchService.search(getFilters());
+		
+		ObjectMapper mapper = new ObjectMapper();
+		
+		if(results==null)
+			System.out.println("No Players found");
+		else
+			results.forEach(pesPlayer -> {try {
+				System.out.println(mapper.writeValueAsString(pesPlayer));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}});
+	}
+	
+	private static List<PesFilter> getFilters(){
+		List<PesFilter> filters = new ArrayList<PesFilter>();		
+		PesFilter filter;
+		
+		//Looking for a fast Gem?
+		filter= new PesFilter("speed", "90-99");
+		filters.add(filter);
+		filter= new PesFilter("explosive_power", "80-99");
+		filters.add(filter);
+		filter= new PesFilter("form", "6-8");
+		filters.add(filter);
+		filter= new PesFilter("overall_rating", "40-79");
+		filters.add(filter);
+		
+		return filters;
 	}
 }
