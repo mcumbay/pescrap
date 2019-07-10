@@ -1,6 +1,6 @@
 package com.dfwcomputech.scrap.rest;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +19,23 @@ public class PesSearchController {
 	private SearchService searchService;
 	
 	@RequestMapping("/search")
-	public List<Player> search(@RequestParam(value="speed", required=false)String speed){
+	public List<Player> search(
+			@RequestParam(value="speed", required = false)String speed,
+			@RequestParam(value="overall_rating", required = false) String rating,
+			@RequestParam(value="explosive_power", required=false) String acceleration,
+			@RequestParam(value="form", required=false) String form){
 		
-		PesFilter filter = new PesFilter("speed",speed);		
-		return searchService.search(Arrays.asList(filter));
+		List<PesFilter> filters = new ArrayList<PesFilter>();
+				
+		if(speed!=null)
+			filters.add(new PesFilter("speed",speed));
+		if(rating!=null)
+			filters.add(new PesFilter("overall_rating",rating));
+		if(form!=null)
+			filters.add(new PesFilter("form",form));
+		if(acceleration!=null)
+			filters.add(new PesFilter("explosive_power",acceleration));
+		
+		return searchService.search(filters);
 	}
 }

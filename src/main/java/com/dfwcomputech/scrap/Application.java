@@ -11,6 +11,11 @@ import com.gargoylesoftware.htmlunit.WebClient;
 @SpringBootApplication
 public class Application {
 	
+	/**
+	 * Example:
+	 * http://localhost:8080/pescrap/search?overall_rating=40-79&speed=90-99&form=6-8&explosive_power=80-99
+	 * 
+	 * */
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
