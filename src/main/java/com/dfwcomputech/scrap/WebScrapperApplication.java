@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.dfwcomputech.scrap.common.PesFilter;
-import com.dfwcomputech.scrap.domain.PesPlayer;
+import com.dfwcomputech.scrap.persistence.domain.Player;
 import com.dfwcomputech.scrap.service.SearchService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -15,7 +15,7 @@ public class WebScrapperApplication {
 		System.out.println("Test");
 		SearchService searchService = new SearchService();
 		
-		List<PesPlayer> results = searchService.search(getFilters());
+		List<Player> results = searchService.search(getFilters());
 		
 		ObjectMapper mapper = new ObjectMapper();
 		
