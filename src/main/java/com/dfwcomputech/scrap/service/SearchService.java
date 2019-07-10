@@ -20,6 +20,9 @@ public class SearchService {
 	@Autowired
 	private Scrapper scrapper;
 	
+	@Autowired
+	private PlayerService playerService;
+	
 	public List<Player> search(List<PesFilter> filters){
 		List<Player> results = new ArrayList<Player>();
 		
@@ -47,7 +50,10 @@ public class SearchService {
 			player.setCondition(cells.get(cells.size()-2).asText().charAt(0));
 			player.setRating(Integer.valueOf(cells.get(cells.size()-1).asText()));
 
-			results.add(player);	
+			results.add(player);
+			//Saving the player on DB
+			playerService.save(player);
+			
 		}
 		
 		return results;
