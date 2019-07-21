@@ -36,19 +36,18 @@ public class SearchService {
 			List<HtmlTableCell> cells = row.getCells();
 			
 			Player player = new Player();
-			player.setPosition(cells.get(0).asText());
 			HtmlAnchor href = (HtmlAnchor)cells.get(1).getFirstChild();
-			player.setId(Integer.valueOf(href.getHrefAttribute().substring(6)));
+			player.setPesdbId(Integer.valueOf(href.getHrefAttribute().substring(6)));
 			player.setName(cells.get(1).asText());
-			player.setTeam(cells.get(2).asText());
 			player.setNationality(cells.get(3).asText());
-			player.setHeight(Integer.valueOf(cells.get(4).asText()));
-			player.setWeight(Integer.valueOf(cells.get(5).asText()));
-			player.setAge(Integer.valueOf(cells.get(6).asText()));
 			
-			
-			player.setCondition(cells.get(cells.size()-2).asText().charAt(0));
-			player.setRating(Integer.valueOf(cells.get(cells.size()-1).asText()));
+//			player.setTeam(cells.get(2).asText());
+//			player.setPosition(cells.get(0).asText());			
+//			player.setHeight(Integer.valueOf(cells.get(4).asText()));
+//			player.setWeight(Integer.valueOf(cells.get(5).asText()));
+//			player.setAge(Integer.valueOf(cells.get(6).asText()));
+//			player.setCondition(cells.get(cells.size()-2).asText().charAt(0));
+//			player.setRating(Integer.valueOf(cells.get(cells.size()-1).asText()));
 
 			results.add(player);
 			//Saving the player on DB
