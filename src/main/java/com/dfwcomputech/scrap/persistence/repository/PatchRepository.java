@@ -1,7 +1,5 @@
 package com.dfwcomputech.scrap.persistence.repository;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,8 +7,17 @@ import com.dfwcomputech.scrap.persistence.domain.Patch;
 
 @Repository
 public interface PatchRepository extends JpaRepository<Patch, Integer>{
-	//Find all versions by year
-	public List<Patch> findByPesYear(Integer year);
-	//Find the latest version by year
-	public Patch findTopByPesYearOrderByVersionDescSubversionDesc(Integer year);
+		
+	public Patch findTopByPesYearOrderByDataPackDescVersionDescSubversionDesc(Integer year);
+	public Patch findTopByOrderByPesYearDescDataPackDescVersionDescSubversionDesc();
+	
+	
+	//Find the latest patch
+	public default Patch findLatestPatch() {
+		return findTopByOrderByPesYearDescDataPackDescVersionDescSubversionDesc();
+	}
+	//Find the latest patch by Year
+	public default Patch findLatestPatchByYear(Integer year) {
+		return findTopByPesYearOrderByDataPackDescVersionDescSubversionDesc(year);
+	}
 }

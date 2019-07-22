@@ -2,8 +2,6 @@ package com.dfwcomputech.scrap.persistence.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +18,7 @@ import com.dfwcomputech.scrap.persistence.domain.Player;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 public class PlayerRepositoryTest {
-	
-	private static final Logger logger = LogManager.getLogger();
+		
 	@Autowired
 	private TestEntityManager entityManager;
 

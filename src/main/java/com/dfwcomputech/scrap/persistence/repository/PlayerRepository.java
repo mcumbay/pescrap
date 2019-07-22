@@ -8,5 +8,6 @@ import com.dfwcomputech.scrap.persistence.domain.Player;
 @Repository
 public interface PlayerRepository extends JpaRepository<Player, Integer>{
 
+	public Player findPlayerByPesdbId(Integer pesDbId);
 	public Boolean existsPlayerByPesdbId(Integer pesDbId);
 }

@@ -3,8 +3,6 @@ package com.dfwcomputech.scrap.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +19,6 @@ import com.dfwcomputech.scrap.common.PesFilter;
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 public class SearchServiceTest {
 
-	private static final Logger logger = LogManager.getLogger(); 
 	@Autowired
 	private SearchService searchService;
 	

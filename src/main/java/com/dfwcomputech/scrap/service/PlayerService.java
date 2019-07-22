@@ -5,7 +5,10 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dfwcomputech.scrap.persistence.domain.Patch;
 import com.dfwcomputech.scrap.persistence.domain.Player;
+import com.dfwcomputech.scrap.persistence.domain.PlayerDetail;
+import com.dfwcomputech.scrap.persistence.repository.PatchRepository;
 import com.dfwcomputech.scrap.persistence.repository.PlayerRepository;
 
 @Service
@@ -15,6 +18,9 @@ public class PlayerService {
 
 	@Autowired
 	private PlayerRepository playerRepository;
+	@Autowired
+	private PatchRepository patchRepository;
+	
 	
 	public void save(Player player) {
 		//Verify if there are player information
@@ -28,6 +34,18 @@ public class PlayerService {
 					logger.info("Player with Pes DB Id= {} already exists.",player.getPesdbId());
 				}
 					
+			}
+		}
+	}
+	
+	public void saveDetail(PlayerDetail detail) {
+		//Verify if there are detail information
+		if(detail!=null) {
+			//Verify if PlayerId was provided
+			if(detail.getId()!=null && detail.getId().getPlayerId()!=null) {
+				//Verify if the detail already exists on DB
+				Patch currentPatch = patchRepository.findLatestPatch();
+				
 			}
 		}
 	}

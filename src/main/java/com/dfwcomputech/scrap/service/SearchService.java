@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.dfwcomputech.scrap.common.PesFilter;
 import com.dfwcomputech.scrap.persistence.Scrapper;
 import com.dfwcomputech.scrap.persistence.domain.Player;
+import com.dfwcomputech.scrap.persistence.domain.PlayerDetail;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
 import com.gargoylesoftware.htmlunit.html.HtmlTableCell;
@@ -36,6 +37,7 @@ public class SearchService {
 			List<HtmlTableCell> cells = row.getCells();
 			
 			Player player = new Player();
+			
 			HtmlAnchor href = (HtmlAnchor)cells.get(1).getFirstChild();
 			player.setPesdbId(Integer.valueOf(href.getHrefAttribute().substring(6)));
 			player.setName(cells.get(1).asText());
@@ -57,7 +59,14 @@ public class SearchService {
 		
 		return results;
 	}
+	
+	public PlayerDetail scrapPlayer(Integer pesdbId) {
+		PlayerDetail playerDetail = new PlayerDetail();
 		
+		
+		return playerDetail;
+	}
+	
 	private String getSearchUrn(List<PesFilter> filters) {
 		if(filters==null||filters.isEmpty())
 			return "";
