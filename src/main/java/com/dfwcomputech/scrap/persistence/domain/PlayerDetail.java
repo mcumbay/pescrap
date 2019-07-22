@@ -15,9 +15,7 @@ public class PlayerDetail {
 	@Column(name="TEAM")
 	private String team;
 	@Column(name="LEAGUE")
-	private String league;
-	@Column(name="REGION")
-	private String region;
+	private String league;	
 	@Column(name="HEIGHT")
 	private Integer height;
 	@Column(name="WEIGHT")
@@ -55,12 +53,6 @@ public class PlayerDetail {
 	}
 	public void setLeague(String league) {
 		this.league = league;
-	}
-	public String getRegion() {
-		return region;
-	}
-	public void setRegion(String region) {
-		this.region = region;
 	}
 	public Integer getHeight() {
 		return height;

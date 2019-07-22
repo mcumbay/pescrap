@@ -44,7 +44,7 @@ public class SearchService {
 			
 			results.add(player);
 			//Saving the player on DB
-			playerService.save(player);
+			playerService.savePlayer(player);
 			
 		}
 		

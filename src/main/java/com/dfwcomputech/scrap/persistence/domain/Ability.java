@@ -1,65 +1,80 @@
 package com.dfwcomputech.scrap.persistence.domain;
 
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-//@Entity
-//@Table
-public class Ability {	
-	@Id
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "playerId", nullable=false)
-	private Player player;
-	@Id
-	private Integer level;
+@Entity
+@Table(name = "ABILITY_LEVEL")
+public class Ability {
 
+	@EmbeddedId
+	private AbilityId id;
+
+	@Column(name = "ATTACKINGPROWNESS")
 	private Integer attackingProwness;
+	@Column(name = "BALLCONTROL")
 	private Integer ballControl;
+	@Column(name = "DRIBBLING")
 	private Integer dribbling;
+	@Column(name = "LOWPASS")
 	private Integer lowPass;
+	@Column(name = "LOFTEDPASS")
 	private Integer loftedPass;
+	@Column(name = "FINISHING")
 	private Integer finishing;
-	private Integer placeKLicking;
+	@Column(name = "PLACEKICKING")
+	private Integer placeKicking;
+	@Column(name = "SWERVE")
 	private Integer swerve;
+	@Column(name = "HEADER")
 	private Integer header;
+	@Column(name = "DEFENSIVEPROWNESS")
 	private Integer defensiveProwness;
+	@Column(name = "BALLWINNING")
 	private Integer ballWinning;
+	@Column(name = "KICKINGPOWER")
 	private Integer kickingPower;
+	@Column(name = "SPEED")
 	private Integer speed;
+	@Column(name = "EXPLOSIVEPOWER")
 	private Integer explosivePower;
+	@Column(name = "UNWAVERINGBALANCE")
 	private Integer unwaveringBalance;
+	@Column(name = "PHYSICALCONTACT")
 	private Integer physicalContact;
+	@Column(name = "JUMP")
 	private Integer jump;
+	@Column(name = "GOALKEEPING")
 	private Integer goalkeeping;
+	@Column(name = "GKCATCH")
 	private Integer gkcatch;
+	@Column(name = "CLEARING")
 	private Integer clearing;
+	@Column(name = "REFLEXES")
 	private Integer reflexes;
+	@Column(name = "COVERAGE")
 	private Integer coverage;
+	@Column(name = "STAMINA")
 	private Integer stamina;
+	@Column(name = "WEAKFOOTUSAGE")
 	private Integer weakFootUsage;
+	@Column(name = "WEAKFOOTACCURACY")
 	private Integer weakFootAccuracy;
+	@Column(name = "FORM")
 	private Integer form;
+	@Column(name = "INJURYRESISTANCE")
 	private Integer injuryResistance;
+	@Column(name = "RATING")
 	private Integer rating;
 
-	public Player getPlayer() {
-		return player;
+	public AbilityId getId() {
+		return id;
 	}
 
-	public void setPlayer(Player player) {
-		this.player = player;
-	}
-
-	public Integer getLevel() {
-		return level;
-	}
-
-	public void setLevel(Integer level) {
-		this.level = level;
+	public void setId(AbilityId id) {
+		this.id = id;
 	}
 
 	public Integer getAttackingProwness() {
@@ -110,12 +125,12 @@ public class Ability {
 		this.finishing = finishing;
 	}
 
-	public Integer getPlaceKLicking() {
-		return placeKLicking;
+	public Integer getPlaceKicking() {
+		return placeKicking;
 	}
 
-	public void setPlaceKLicking(Integer placeKLicking) {
-		this.placeKLicking = placeKLicking;
+	public void setPlaceKicking(Integer placeKicking) {
+		this.placeKicking = placeKicking;
 	}
 
 	public Integer getSwerve() {
