@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.dfwcomputech.scrap.common.PesFilter;
 import com.dfwcomputech.scrap.persistence.Scrapper;
 import com.dfwcomputech.scrap.persistence.domain.Player;
-import com.dfwcomputech.scrap.persistence.domain.PlayerDetail;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
 import com.gargoylesoftware.htmlunit.html.HtmlTableCell;
@@ -43,14 +42,6 @@ public class SearchService {
 			player.setName(cells.get(1).asText());
 			player.setNationality(cells.get(3).asText());
 			
-//			player.setTeam(cells.get(2).asText());
-//			player.setPosition(cells.get(0).asText());			
-//			player.setHeight(Integer.valueOf(cells.get(4).asText()));
-//			player.setWeight(Integer.valueOf(cells.get(5).asText()));
-//			player.setAge(Integer.valueOf(cells.get(6).asText()));
-//			player.setCondition(cells.get(cells.size()-2).asText().charAt(0));
-//			player.setRating(Integer.valueOf(cells.get(cells.size()-1).asText()));
-
 			results.add(player);
 			//Saving the player on DB
 			playerService.save(player);
@@ -59,14 +50,7 @@ public class SearchService {
 		
 		return results;
 	}
-	
-	public PlayerDetail scrapPlayer(Integer pesdbId) {
-		PlayerDetail playerDetail = new PlayerDetail();
 		
-		
-		return playerDetail;
-	}
-	
 	private String getSearchUrn(List<PesFilter> filters) {
 		if(filters==null||filters.isEmpty())
 			return "";
@@ -79,4 +63,5 @@ public class SearchService {
 		}
 		return searchUrn;
 	}
+	
 }
