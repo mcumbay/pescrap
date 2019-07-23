@@ -8,4 +8,6 @@ import com.dfwcomputech.scrap.persistence.domain.Position;
 @Repository
 public interface PositionRepository extends JpaRepository<Position, Integer>{
 
+	public Position findTopByCode(String code);
+		
 }

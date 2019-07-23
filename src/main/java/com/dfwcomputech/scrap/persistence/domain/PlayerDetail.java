@@ -3,10 +3,12 @@ package com.dfwcomputech.scrap.persistence.domain;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="PLAYER_PATCH")
+@Table(name="PLAYER_DETAIL")
 public class PlayerDetail {
 	@EmbeddedId
 	private PlayerDetailId id;
@@ -26,10 +28,18 @@ public class PlayerDetail {
 	private String foot;
 	@Column(name="CONDITION")
 	private String currentCondition;
-	@Column(name="POSITION")
-	private String preferedPosition;
+		
 	@Column(name="RATING")
 	private Integer oprAtLevel30;
+	
+	@Column(name="POSITION")
+	private String preferedPosition;
+		
+	@ManyToOne
+	@JoinColumn(name = "PLAYINGSTYLEID")
+	private PlayingStyle playingStyle;
+	
+	
 	public PlayerDetailId getId() {
 		return id;
 	}
@@ -96,6 +106,12 @@ public class PlayerDetail {
 	public void setOprAtLevel30(Integer oprAtLevel30) {
 		this.oprAtLevel30 = oprAtLevel30;
 	}
-	
-	
+	public PlayingStyle getPlayingStyle() {
+		return playingStyle;
+	}
+	public void setPlayingStyle(PlayingStyle playingStyle) {
+		this.playingStyle = playingStyle;
+	}
+
+		
 }

@@ -27,7 +27,7 @@ public class Player {
 	
 	@Column(name = "REGION")
 	private String region;
-
+	
 	public Integer getId() {
 		return id;
 	}

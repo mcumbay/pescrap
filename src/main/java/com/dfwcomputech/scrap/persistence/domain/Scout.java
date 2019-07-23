@@ -20,11 +20,11 @@ public class Scout {
 	private Integer id;
 	
 	@ManyToOne
-	@JoinColumn(name="patchId")
+	@JoinColumn(name="PATCHID", nullable = false)	
 	private Patch patch;
 	
 	@ManyToOne
-	@JoinColumn(name = "playerId")
+	@JoinColumn(name = "PLAYERID" , nullable = false)	
 	private Player player;
 	
 	@Column(name="CHANCE")

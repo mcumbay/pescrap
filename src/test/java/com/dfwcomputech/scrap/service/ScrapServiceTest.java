@@ -9,34 +9,22 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.dfwcomputech.scrap.common.LoggerUtil;
-import com.dfwcomputech.scrap.persistence.domain.Player;
-import com.dfwcomputech.scrap.persistence.domain.Scout;
+import com.dfwcomputech.scrap.persistence.domain.PlayerDetail;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
-public class PlayerServiceTest {
-
+public class ScrapServiceTest {
+	
 	public static final Integer MESSI=7511;
 	public static final Integer NEYMAR=40352;
 	
-	@Autowired
-	private PlayerService playerService;
+	@Autowired	
+	private ScrapService scrapService;
 		
 	@Test
-	public void whenSaveScout_thenPrint() {
-		Scout scout = new Scout();
-		Player player= playerService.findPlayerByPesdbId(NEYMAR);
-				
-		scout.setPlayer(player);
-		scout.setChance(100);
-		scout.setLevel(5);
-		scout.setScout1("PSG");
-		scout.setScout2("LFW");
-		scout.setScout2("PENALTY SPECIALIST");
-		
-		
-		LoggerUtil.print(playerService.saveScout(scout));
-		
+	public void whenScrapPlayer_thenPrint() {
+		PlayerDetail detail = scrapService.scrapPlayer(MESSI);
+		LoggerUtil.printPlayerDetail(detail);
 	}
 }
