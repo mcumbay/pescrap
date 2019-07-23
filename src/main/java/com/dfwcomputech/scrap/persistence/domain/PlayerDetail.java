@@ -14,10 +14,6 @@ public class PlayerDetail {
 	private PlayerDetailId id;
 	@Column(name="SQUATNUMBER")
 	private Integer squatNumber;
-	@Column(name="TEAM")
-	private String team;
-	@Column(name="LEAGUE")
-	private String league;	
 	@Column(name="HEIGHT")
 	private Integer height;
 	@Column(name="WEIGHT")
@@ -32,13 +28,18 @@ public class PlayerDetail {
 	@Column(name="RATING")
 	private Integer oprAtLevel30;
 	
-	@Column(name="POSITION")
-	private String preferedPosition;
+	@Column(name="TEAM")
+	private String team;
+	@Column(name="LEAGUE")
+	private String league;	
+	
+	@ManyToOne
+	@JoinColumn(name="POSITIONID")
+	private Position preferedPosition;
 		
 	@ManyToOne
 	@JoinColumn(name = "PLAYINGSTYLEID")
 	private PlayingStyle playingStyle;
-	
 	
 	public PlayerDetailId getId() {
 		return id;
@@ -94,10 +95,10 @@ public class PlayerDetail {
 	public void setCurrentCondition(String currentCondition) {
 		this.currentCondition = currentCondition;
 	}
-	public String getPreferedPosition() {
+	public Position getPreferedPosition() {
 		return preferedPosition;
 	}
-	public void setPreferedPosition(String preferedPosition) {
+	public void setPreferedPosition(Position preferedPosition) {
 		this.preferedPosition = preferedPosition;
 	}
 	public Integer getOprAtLevel30() {

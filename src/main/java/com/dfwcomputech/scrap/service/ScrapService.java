@@ -12,7 +12,9 @@ import com.dfwcomputech.scrap.persistence.domain.Player;
 import com.dfwcomputech.scrap.persistence.domain.PlayerDetail;
 import com.dfwcomputech.scrap.persistence.domain.PlayerDetailId;
 import com.dfwcomputech.scrap.persistence.domain.PlayingStyle;
+import com.dfwcomputech.scrap.persistence.domain.Position;
 import com.dfwcomputech.scrap.persistence.repository.PlayingStyleRepository;
+import com.dfwcomputech.scrap.persistence.repository.PositionRepository;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
 import com.gargoylesoftware.htmlunit.html.HtmlTableCell;
 import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
@@ -38,7 +40,10 @@ public class ScrapService {
 	private PlayerService playerService;
 	
 	@Autowired
-	private PlayingStyleRepository playingStyleRepository ; 
+	private PlayingStyleRepository playingStyleRepository ;
+	@Autowired
+	private PositionRepository positionRepository;
+	
 
 	public PlayerDetail scrapPlayer(Integer pesdbId) {
 
@@ -68,15 +73,23 @@ public class ScrapService {
 		PlayerDetailId detailId = new PlayerDetailId(null, player.getId());
 		detail.setId(detailId);
 		detail.setSquatNumber(Integer.valueOf(scrapDetailString(attributesColumn1, 1)));
-		detail.setTeam(scrapDetailString(attributesColumn1, 2));
-		detail.setLeague(scrapDetailString(attributesColumn1, 3));
 		detail.setHeight(Integer.valueOf(scrapDetailString(attributesColumn1, 6)));
 		detail.setWeight(Integer.valueOf(scrapDetailString(attributesColumn1, 7)));
 		detail.setAge(Integer.valueOf(scrapDetailString(attributesColumn1, 8)));
 		detail.setFoot(scrapDetailString(attributesColumn1, 9));
 		detail.setCurrentCondition(scrapDetailString(attributesColumn1, 10));
-		detail.setPreferedPosition(scrapDetailString(attributesColumn1, 11));
 		detail.setOprAtLevel30(Integer.valueOf(scrapDetailString(attributesColumn3, 13)));
+		
+		detail.setTeam(scrapDetailString(attributesColumn1, 2));
+		detail.setLeague(scrapDetailString(attributesColumn1, 3));
+		
+		String preferedPositionCode = scrapDetailString(attributesColumn1, 11);
+		if(preferedPositionCode!=null) {
+			Position preferedPosition = positionRepository.findTopByCode(preferedPositionCode);
+			if(preferedPosition!=null)
+				detail.setPreferedPosition(preferedPosition);
+			
+		}
 		
 		String playingStyleName = scrapDetailString(attributesColumn4, 1,false);
 		if(playingStyleName!=null) {
