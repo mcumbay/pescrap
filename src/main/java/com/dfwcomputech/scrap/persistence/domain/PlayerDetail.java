@@ -28,11 +28,10 @@ public class PlayerDetail {
 	@Column(name="RATING")
 	private Integer oprAtLevel30;
 	
-	@Column(name="TEAM")
-	private String team;
-	@Column(name="LEAGUE")
-	private String league;	
-	
+	@ManyToOne
+	@JoinColumn(name="TEAMID")
+	private Team team;
+			
 	@ManyToOne
 	@JoinColumn(name="POSITIONID")
 	private Position preferedPosition;
@@ -53,17 +52,11 @@ public class PlayerDetail {
 	public void setSquatNumber(Integer squatNumber) {
 		this.squatNumber = squatNumber;
 	}
-	public String getTeam() {
+	public Team getTeam() {
 		return team;
 	}
-	public void setTeam(String team) {
+	public void setTeam(Team team) {
 		this.team = team;
-	}
-	public String getLeague() {
-		return league;
-	}
-	public void setLeague(String league) {
-		this.league = league;
 	}
 	public Integer getHeight() {
 		return height;

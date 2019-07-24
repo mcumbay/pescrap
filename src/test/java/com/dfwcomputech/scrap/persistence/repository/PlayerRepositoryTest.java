@@ -35,8 +35,7 @@ public class PlayerRepositoryTest {
 		Player player = new Player();
 		player.setPesdbId(-1);
 		player.setName("John Doe");
-		player.setNationality("Peruvian");
-		
+				
 		entityManager.persist(player);
 		
 		assertThat(playerRepository.existsPlayerByPesdbId(-1));

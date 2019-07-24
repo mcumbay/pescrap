@@ -10,12 +10,11 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="TEAM")
-public class Team {
-
+@Table(name="Nationality")
+public class Nationality {
 	@Id
-	@GeneratedValue(generator = "TEAM_ID_GENERATOR")
-	@SequenceGenerator(name = "TEAM_ID_GENERATOR", sequenceName = "TEAM_SEQUENCE")
+	@GeneratedValue(generator = "NATIONALITY_ID_GENERATOR")
+	@SequenceGenerator(name = "NATIONALITY_ID_GENERATOR", sequenceName = "NATIONALITY_SEQUENCE")
 	@Column(name = "ID")
 	private Integer id;
 	
@@ -23,8 +22,8 @@ public class Team {
 	private String name;
 	
 	@ManyToOne
-	@JoinColumn(name="LEAGUEID", nullable = false)
-	private League league;
+	@JoinColumn(name="REGIONID")
+	private Region region;
 
 	public Integer getId() {
 		return id;
@@ -42,13 +41,12 @@ public class Team {
 		this.name = name;
 	}
 
-	public League getLeague() {
-		return league;
+	public Region getRegion() {
+		return region;
 	}
 
-	public void setLeague(League league) {
-		this.league = league;
+	public void setRegion(Region region) {
+		this.region = region;
 	}
-	
-	
+		
 }

@@ -53,7 +53,6 @@ public class PlayerDetailRepositoryTest {
 		playerDetail.setAge(30);
 		playerDetail.setOprAtLevel30(79);
 		playerDetail.setCurrentCondition("C");
-		playerDetail.setTeam("UNIVERSITARIO");
 		
 		return playerDetailRepository.save(playerDetail);
 	}

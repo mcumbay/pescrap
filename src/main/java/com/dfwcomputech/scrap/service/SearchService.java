@@ -40,7 +40,6 @@ public class SearchService {
 			HtmlAnchor href = (HtmlAnchor)cells.get(1).getFirstChild();
 			player.setPesdbId(Integer.valueOf(href.getHrefAttribute().substring(6)));
 			player.setName(cells.get(1).asText());
-			player.setNationality(cells.get(3).asText());
 			
 			results.add(player);
 			//Saving the player on DB

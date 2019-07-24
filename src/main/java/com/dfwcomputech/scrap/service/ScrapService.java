@@ -8,11 +8,13 @@ import org.springframework.stereotype.Service;
 import com.dfwcomputech.scrap.persistence.Scrapper;
 import com.dfwcomputech.scrap.persistence.domain.Ability;
 import com.dfwcomputech.scrap.persistence.domain.AbilityId;
+import com.dfwcomputech.scrap.persistence.domain.Nationality;
 import com.dfwcomputech.scrap.persistence.domain.Player;
 import com.dfwcomputech.scrap.persistence.domain.PlayerDetail;
 import com.dfwcomputech.scrap.persistence.domain.PlayerDetailId;
 import com.dfwcomputech.scrap.persistence.domain.PlayingStyle;
 import com.dfwcomputech.scrap.persistence.domain.Position;
+import com.dfwcomputech.scrap.persistence.domain.Team;
 import com.dfwcomputech.scrap.persistence.repository.PlayingStyleRepository;
 import com.dfwcomputech.scrap.persistence.repository.PositionRepository;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
@@ -38,13 +40,18 @@ public class ScrapService {
 
 	@Autowired
 	private PlayerService playerService;
+
+	@Autowired
+	private LeagueService leagueService;
+	
+	@Autowired
+	private RegionService regionService;
 	
 	@Autowired
 	private PlayingStyleRepository playingStyleRepository ;
 	@Autowired
 	private PositionRepository positionRepository;
 	
-
 	public PlayerDetail scrapPlayer(Integer pesdbId) {
 
 		scrapper.setPage("?id=" + pesdbId);
@@ -56,15 +63,15 @@ public class ScrapService {
 		// 1. Getting Player information
 		Player player = new Player();
 
-		String playerName = scrapDetailString(attributesColumn1, 0);
-		String nationality = scrapDetailString(attributesColumn1, 4);
-		String region = scrapDetailString(attributesColumn1, 5);
 
-		player.setName(playerName);
-		player.setNationality(nationality);
-		player.setRegion(region);
+		player.setName(scrapDetailString(attributesColumn1, 0));
 		player.setPesdbId(pesdbId);
-
+		
+		String nationalityName = scrapDetailString(attributesColumn1, 4);
+		String regionName = scrapDetailString(attributesColumn1, 5);
+		Nationality nationality = regionService.getNationality(nationalityName, regionName);
+		player.setNationality(nationality);
+		
 		player = playerService.savePlayer(player);
 
 		// 2. Getting Player Details for the current Patch
@@ -79,9 +86,11 @@ public class ScrapService {
 		detail.setFoot(scrapDetailString(attributesColumn1, 9));
 		detail.setCurrentCondition(scrapDetailString(attributesColumn1, 10));
 		detail.setOprAtLevel30(Integer.valueOf(scrapDetailString(attributesColumn3, 13)));
-		
-		detail.setTeam(scrapDetailString(attributesColumn1, 2));
-		detail.setLeague(scrapDetailString(attributesColumn1, 3));
+				
+		String leagueName = scrapDetailString(attributesColumn1, 3);		
+		String teamName = scrapDetailString(attributesColumn1, 2);
+		Team team = leagueService.getTeam(teamName, leagueName);
+		detail.setTeam(team);
 		
 		String preferedPositionCode = scrapDetailString(attributesColumn1, 11);
 		if(preferedPositionCode!=null) {

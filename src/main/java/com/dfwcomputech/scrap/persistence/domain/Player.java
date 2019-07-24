@@ -4,6 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -22,11 +24,10 @@ public class Player {
 	@Column(name = "NAME")
 	private String name;
 
-	@Column(name = "NATIONALITY")
-	private String nationality;
+	@ManyToOne
+	@JoinColumn(name = "NATIONALITYID")
+	private Nationality nationality;
 	
-	@Column(name = "REGION")
-	private String region;
 	
 	public Integer getId() {
 		return id;
@@ -52,22 +53,13 @@ public class Player {
 		this.name = name;
 	}
 
-	public String getNationality() {
+	public Nationality getNationality() {
 		return nationality;
 	}
 
-	public void setNationality(String nationality) {
+	public void setNationality(Nationality nationality) {
 		this.nationality = nationality;
 	}
-
-	public String getRegion() {
-		return region;
-	}
-
-	public void setRegion(String region) {
-		this.region = region;
-	}
-	
 	
 
 }
