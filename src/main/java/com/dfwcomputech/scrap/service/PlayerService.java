@@ -78,7 +78,7 @@ public class PlayerService {
 		return null;
 	}
 	
-	public void saveAbilityByLevel(Ability ability,Integer level) {
+	public Ability saveAbilityByLevel(Ability ability,Integer level) {
 		//Verify if there is ability and level information
 		if(ability!=null && level!=null) {
 			//Verify if Player Id was provided
@@ -88,18 +88,18 @@ public class PlayerService {
 				if(!abilityRepository.exists(currentPatch.getId(),ability.getId().getPlayerId(),level)) {
 					ability.getId().setPatchId(currentPatch.getId());
 					ability.getId().setLevel(level);
-					abilityRepository.save(ability);
+					return abilityRepository.save(ability);
 				}else
 					logger.info("Ability with [PatchId ={} PlayerId ={} Level ={}] already exists.",currentPatch.getId(),
 							ability.getId().getPlayerId(),level);
 			}
-				
 		}
+		return null;
 	}
 	
 	//By Default we save at level 30
-	public void saveAbility(Ability ability) {
-		saveAbilityByLevel(ability,30);
+	public Ability saveAbility(Ability ability) {
+		return saveAbilityByLevel(ability,30);
 	}
 		
 	public Scout saveScout(Scout scout) {

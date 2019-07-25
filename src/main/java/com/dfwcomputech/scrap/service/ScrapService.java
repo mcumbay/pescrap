@@ -10,7 +10,6 @@ import com.dfwcomputech.scrap.persistence.Scrapper;
 import com.dfwcomputech.scrap.persistence.domain.Ability;
 import com.dfwcomputech.scrap.persistence.domain.AbilityId;
 import com.dfwcomputech.scrap.persistence.domain.Nationality;
-import com.dfwcomputech.scrap.persistence.domain.Patch;
 import com.dfwcomputech.scrap.persistence.domain.Player;
 import com.dfwcomputech.scrap.persistence.domain.PlayerDetail;
 import com.dfwcomputech.scrap.persistence.domain.PlayerDetailId;
@@ -18,7 +17,6 @@ import com.dfwcomputech.scrap.persistence.domain.PlayingStyle;
 import com.dfwcomputech.scrap.persistence.domain.Position;
 import com.dfwcomputech.scrap.persistence.domain.Scout;
 import com.dfwcomputech.scrap.persistence.domain.Team;
-import com.dfwcomputech.scrap.persistence.repository.PatchRepository;
 import com.dfwcomputech.scrap.persistence.repository.PlayingStyleRepository;
 import com.dfwcomputech.scrap.persistence.repository.PositionRepository;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
@@ -52,10 +50,7 @@ public class ScrapService {
 	private RegionService regionService;
 	
 	@Autowired
-	private ScoutService scoutService;
-	
-	@Autowired
-	private PatchRepository patchRepository;
+	private ScoutService scoutService;	
 	
 	@Autowired
 	private PlayingStyleRepository playingStyleRepository ;
@@ -63,17 +58,14 @@ public class ScrapService {
 	@Autowired
 	private PositionRepository positionRepository;
 	
-	public PlayerDetail scrapPlayer(Integer pesdbId) {
+	public Player scrapPlayer(Integer pesdbId) {
 
 		scrapper.setPage("?id=" + pesdbId);
 		HtmlTable mainTable = scrapper.getTable("//table[@class='player']");
 		HtmlTableCell attributesColumn1 = mainTable.getCellAt(MAIN_TABLE_ROW_ATTRIBUTES, FIRST_COLUMN);
-		HtmlTableCell attributesColumn2 = mainTable.getCellAt(MAIN_TABLE_ROW_ATTRIBUTES, SECOND_COLUMN);
-		HtmlTableCell attributesColumn3 = mainTable.getCellAt(MAIN_TABLE_ROW_ATTRIBUTES, THIRD_COLUMN);
-		HtmlTableCell attributesColumn4 = mainTable.getCellAt(MAIN_TABLE_ROW_ATTRIBUTES, FOURTH_COLUMN);
+
 		// 1. Getting Player information
 		Player player = new Player();
-
 
 		player.setName(scrapDetailString(attributesColumn1, 0));
 		player.setPesdbId(pesdbId);
@@ -86,6 +78,26 @@ public class ScrapService {
 		player = playerService.savePlayer(player);
 
 		// 2. Getting Player Details for the current Patch
+		PlayerDetail detail = scrapPlayerDetails(pesdbId);
+
+		// 3. Getting Player Abilities (level 30)
+		Ability ability = scrapAbilities(pesdbId);
+		
+		//4. Getting Scouts
+		List<Scout> scouts = scrapScouts(pesdbId);
+
+		return player;
+	}
+
+	public PlayerDetail scrapPlayerDetails(Integer pesdbId) {
+		Player player = playerService.findPlayerByPesdbId(pesdbId);
+		
+		scrapper.setPage("?id=" + pesdbId);
+		HtmlTable mainTable = scrapper.getTable("//table[@class='player']");		
+		HtmlTableCell attributesColumn1 = mainTable.getCellAt(MAIN_TABLE_ROW_ATTRIBUTES, FIRST_COLUMN);		
+		HtmlTableCell attributesColumn3 = mainTable.getCellAt(MAIN_TABLE_ROW_ATTRIBUTES, THIRD_COLUMN);
+		HtmlTableCell attributesColumn4 = mainTable.getCellAt(MAIN_TABLE_ROW_ATTRIBUTES, FOURTH_COLUMN);
+		
 		PlayerDetail detail = new PlayerDetail();
 
 		PlayerDetailId detailId = new PlayerDetailId(null, player.getId());
@@ -118,9 +130,18 @@ public class ScrapService {
 				detail.setPlayingStyle(playingStyle);
 		}
 						
-		detail = playerService.saveDetails(detail);
-
-		// 3. Getting Player Abilities (level 30)
+		return playerService.saveDetails(detail);
+		
+	}
+	
+	public Ability scrapAbilities(Integer pesdbId) {
+		Player player = playerService.findPlayerByPesdbId(pesdbId);
+		
+		scrapper.setPage("?id=" + pesdbId);
+		HtmlTable mainTable = scrapper.getTable("//table[@class='player']");
+		HtmlTableCell attributesColumn2 = mainTable.getCellAt(MAIN_TABLE_ROW_ATTRIBUTES, SECOND_COLUMN);
+		HtmlTableCell attributesColumn3 = mainTable.getCellAt(MAIN_TABLE_ROW_ATTRIBUTES, THIRD_COLUMN);
+		
 		Ability ability = new Ability();
 		AbilityId abilityId = new AbilityId(null, player.getId(), null);
 		ability.setId(abilityId);
@@ -154,15 +175,9 @@ public class ScrapService {
 		ability.setInjuryResistance(Integer.valueOf(scrapDetailString(attributesColumn3, 11)));
 		ability.setRating(Integer.valueOf(scrapDetailString(attributesColumn3, 13)));
 
-		playerService.saveAbility(ability);
-
-		// HtmlTableRow levelBarRow =rows.get(1);
-		// HtmlTableRow pictureSocialMediaRow =rows.get(2);
-		scrapScouts(pesdbId);
-
-		return detail;
+		return playerService.saveAbility(ability);
 	}
-
+	
 	public List<Scout> scrapScouts(Integer pesdbId) {
 		scrapper.setPage("?id=" + pesdbId);
 		Player player = playerService.findPlayerByPesdbId(pesdbId);
