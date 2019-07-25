@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.dfwcomputech.scrap.common.LoggerUtil;
-import com.dfwcomputech.scrap.persistence.domain.PlayerDetail;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -24,7 +23,11 @@ public class ScrapServiceTest {
 		
 	@Test
 	public void whenScrapPlayer_thenPrint() {
-		PlayerDetail detail = scrapService.scrapPlayer(MESSI);
-		LoggerUtil.printPlayerDetail(detail);
+		LoggerUtil.print(scrapService.scrapPlayer(MESSI));
+	}
+	
+	@Test
+	public void whenScrapScouts_thenPrint() {		
+		LoggerUtil.print(scrapService.scrapScouts(MESSI));
 	}
 }

@@ -27,7 +27,7 @@ public class PlayerRepositoryTest {
 
 	@Test
 	public void whenFindAllPlayers_thenPrint() {		
-		LoggerUtil.printPlayerList(playerRepository.findAll());
+		LoggerUtil.print(playerRepository.findAll());
 	}
 	
 	@Test

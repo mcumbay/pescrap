@@ -35,7 +35,7 @@ public class PlayerDetailRepositoryTest {
 	public void whenCreatePlayerDetail_thenCorrect() {
 		//C N'JIE (47427)
 		PlayerDetail player =createTestPlayerDetail(47427);
-		LoggerUtil.printPlayerDetail(player);
+		LoggerUtil.print(player);
 	}
 	
 	@Test

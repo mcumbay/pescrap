@@ -1,5 +1,6 @@
 package com.dfwcomputech.scrap.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +10,15 @@ import com.dfwcomputech.scrap.persistence.Scrapper;
 import com.dfwcomputech.scrap.persistence.domain.Ability;
 import com.dfwcomputech.scrap.persistence.domain.AbilityId;
 import com.dfwcomputech.scrap.persistence.domain.Nationality;
+import com.dfwcomputech.scrap.persistence.domain.Patch;
 import com.dfwcomputech.scrap.persistence.domain.Player;
 import com.dfwcomputech.scrap.persistence.domain.PlayerDetail;
 import com.dfwcomputech.scrap.persistence.domain.PlayerDetailId;
 import com.dfwcomputech.scrap.persistence.domain.PlayingStyle;
 import com.dfwcomputech.scrap.persistence.domain.Position;
+import com.dfwcomputech.scrap.persistence.domain.Scout;
 import com.dfwcomputech.scrap.persistence.domain.Team;
+import com.dfwcomputech.scrap.persistence.repository.PatchRepository;
 import com.dfwcomputech.scrap.persistence.repository.PlayingStyleRepository;
 import com.dfwcomputech.scrap.persistence.repository.PositionRepository;
 import com.gargoylesoftware.htmlunit.html.HtmlTable;
@@ -48,7 +52,14 @@ public class ScrapService {
 	private RegionService regionService;
 	
 	@Autowired
+	private ScoutService scoutService;
+	
+	@Autowired
+	private PatchRepository patchRepository;
+	
+	@Autowired
 	private PlayingStyleRepository playingStyleRepository ;
+	
 	@Autowired
 	private PositionRepository positionRepository;
 	
@@ -106,10 +117,8 @@ public class ScrapService {
 			if(playingStyle!=null)
 				detail.setPlayingStyle(playingStyle);
 		}
-		
-		
-		
-		playerService.saveDetails(detail);
+						
+		detail = playerService.saveDetails(detail);
 
 		// 3. Getting Player Abilities (level 30)
 		Ability ability = new Ability();
@@ -149,14 +158,49 @@ public class ScrapService {
 
 		// HtmlTableRow levelBarRow =rows.get(1);
 		// HtmlTableRow pictureSocialMediaRow =rows.get(2);
-		// HtmlTableRow ScoutsRow =rows.get(4);
+		scrapScouts(pesdbId);
 
 		return detail;
 	}
 
+	public List<Scout> scrapScouts(Integer pesdbId) {
+		scrapper.setPage("?id=" + pesdbId);
+		Player player = playerService.findPlayerByPesdbId(pesdbId);
+		
+		if(player!=null) {
+			List<Scout> scoutList = new ArrayList<Scout>();
+			
+			HtmlTable scoutTable = scrapper.getTable("//table[@class='scouts']");
+			List<HtmlTableRow> scoutRows = scoutTable.getRows();		
+			for(HtmlTableRow scoutRow:scoutRows) {
+				String rowClass = scoutRow.getAttribute("class");
+				if(rowClass!=null && rowClass.equals("scout_row")) {
+					String ballLevel = scoutRow.getCell(0).asText().replace("*","");
+					String scout1 = scoutRow.getCell(1).asText();
+					String scout2 = scoutRow.getCell(2).asText();
+					String scout3 = scoutRow.getCell(3).asText();
+					String chance = scoutRow.getCell(4).asText().replace("%", "");
+					
+					Scout scout = new Scout();
+					scout.setPlayer(player);
+					scout.setChance(Integer.valueOf(chance));
+					scout.setLevel(Integer.valueOf(ballLevel));
+					scout.setScout1(scout1);
+					scout.setScout2(scout2);
+					scout.setScout3(scout3);
+					
+					scoutList.add(scoutService.addScout(scout));
+				}
+			}
+			return scoutList;
+		}
+		return null;
+	}
+	
 	private String scrapDetailString(HtmlTableCell tableCell, Integer row) {
 		return scrapDetailString(tableCell,row,true);
 	}
+	
 	private String scrapDetailString(HtmlTableCell tableCell, Integer row, Boolean hasLabelBefore) {
 
 		HtmlTable internalTable = (HtmlTable) tableCell.getFirstElementChild();		

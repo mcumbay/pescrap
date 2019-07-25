@@ -60,7 +60,7 @@ public class PlayerService {
 					
 	}
 
-	public void saveDetails(PlayerDetail detail) {
+	public PlayerDetail saveDetails(PlayerDetail detail) {
 		// Verify if there is detail information
 		if (detail != null) {
 			// Verify if PlayerId was provided
@@ -69,12 +69,13 @@ public class PlayerService {
 				Patch currentPatch = patchRepository.findLatestPatch();
 				if (!playerDetailRepository.exists(currentPatch.getId(), detail.getId().getPlayerId())) {
 					detail.getId().setPatchId(currentPatch.getId());
-					playerDetailRepository.save(detail);
+					return playerDetailRepository.save(detail);
 				} else
 					logger.info("Player Detail with[PatchId= {} PlayerId= {} ] already exists.", currentPatch.getId(),
 							detail.getId().getPlayerId());
 			}
 		}
+		return null;
 	}
 	
 	public void saveAbilityByLevel(Ability ability,Integer level) {

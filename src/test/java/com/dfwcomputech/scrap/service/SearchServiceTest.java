@@ -25,7 +25,7 @@ public class SearchServiceTest {
 	
 	@Test
 	public void whenSearchPlayers_thenCorrect() {
-		LoggerUtil.printPlayerList(searchService.search(getFilters()));
+		LoggerUtil.print(searchService.search(getFilters()));
 	}
 	
 	private static List<PesFilter> getFilters(){
