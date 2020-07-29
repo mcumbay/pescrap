@@ -15,7 +15,7 @@ public class Scout {
 
 	@Id
 	@GeneratedValue(generator = "SCOUT_ID_GENERATOR")
-	@SequenceGenerator(name = "SCOUT_ID_GENERATOR", sequenceName = "SCOUT_SEQUENCE")
+	@SequenceGenerator(name = "SCOUT_ID_GENERATOR", sequenceName = "SCOUT_SEQUENCE",allocationSize=1)
 	@Column(name="ID")
 	private Integer id;
 	

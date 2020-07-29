@@ -14,7 +14,7 @@ import javax.persistence.Table;
 public class Nationality {
 	@Id
 	@GeneratedValue(generator = "NATIONALITY_ID_GENERATOR")
-	@SequenceGenerator(name = "NATIONALITY_ID_GENERATOR", sequenceName = "NATIONALITY_SEQUENCE")
+	@SequenceGenerator(name = "NATIONALITY_ID_GENERATOR", sequenceName = "NATIONALITY_SEQUENCE",allocationSize=1)
 	@Column(name = "ID")
 	private Integer id;
 	

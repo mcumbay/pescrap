@@ -7,6 +7,7 @@ import com.dfwcomputech.scrap.persistence.domain.Nationality;
 import com.dfwcomputech.scrap.persistence.domain.Region;
 import com.dfwcomputech.scrap.persistence.repository.NationalityRepository;
 import com.dfwcomputech.scrap.persistence.repository.RegionRepository;
+import com.google.common.base.Strings;
 
 @Service
 public class RegionService {
@@ -18,10 +19,11 @@ public class RegionService {
 	private NationalityRepository nationalityRepository;
 	
 	public Nationality getNationality(String nationalityName,String regionName) {
-		if(nationalityName!=null && !nationalityName.isBlank()) {
+		if(!Strings.isNullOrEmpty(nationalityName)) {
 			Nationality nationality = nationalityRepository.findByNationalityName(nationalityName);
 			if(nationality==null) {
-				Region region = regionRepository.findByRegionName(regionName);				
+				Region region = regionRepository.findByRegionName(regionName);
+
 				nationality= new Nationality();
 				nationality.setName(nationalityName);
 				nationality.setRegion(region);

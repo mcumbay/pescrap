@@ -12,7 +12,7 @@ import javax.persistence.Table;
 public class Patch {
 	@Id
 	@GeneratedValue(generator = "PATCH_ID_GENERATOR")
-	@SequenceGenerator(name = "PATCH_ID_GENERATOR", sequenceName = "PATCH_SEQUENCE")
+	@SequenceGenerator(name = "PATCH_ID_GENERATOR", sequenceName = "PATCH_SEQUENCE",allocationSize=1)
 	@Column(name = "ID")
 	private Integer id;
 	

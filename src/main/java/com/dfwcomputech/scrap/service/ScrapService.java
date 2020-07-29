@@ -3,6 +3,8 @@ package com.dfwcomputech.scrap.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
 @Service
 public class ScrapService {
 
+	private static final Logger logger = LogManager.getLogger();
+	
 	private static final Integer MAIN_TABLE_ROW_ATTRIBUTES = 0;
 	private static final Integer MAIN_TABLE_ROW_LEVEL_BAR = 1;
 	private static final Integer MAIN_TABLE_ROW_IMAGE_AND_SOCIAL_MEDIA = 2;
@@ -78,21 +82,21 @@ public class ScrapService {
 		player = playerService.savePlayer(player);
 
 		// 2. Getting Player Details for the current Patch
-		PlayerDetail detail = scrapPlayerDetails(pesdbId);
+		PlayerDetail detail = scrapPlayerDetails(pesdbId,scrapper);
 
 		// 3. Getting Player Abilities (level 30)
-		Ability ability = scrapAbilities(pesdbId);
+		Ability ability = scrapAbilities(pesdbId,scrapper);
 		
 		//4. Getting Scouts
-		List<Scout> scouts = scrapScouts(pesdbId);
+		List<Scout> scouts = scrapScouts(pesdbId,scrapper);
 
 		return player;
 	}
 
-	public PlayerDetail scrapPlayerDetails(Integer pesdbId) {
+	private PlayerDetail scrapPlayerDetails(Integer pesdbId,Scrapper scrapper) {
 		Player player = playerService.findPlayerByPesdbId(pesdbId);
 		
-		scrapper.setPage("?id=" + pesdbId);
+		//scrapper.setPage("?id=" + pesdbId);
 		HtmlTable mainTable = scrapper.getTable("//table[@class='player']");		
 		HtmlTableCell attributesColumn1 = mainTable.getCellAt(MAIN_TABLE_ROW_ATTRIBUTES, FIRST_COLUMN);		
 		HtmlTableCell attributesColumn3 = mainTable.getCellAt(MAIN_TABLE_ROW_ATTRIBUTES, THIRD_COLUMN);
@@ -134,10 +138,10 @@ public class ScrapService {
 		
 	}
 	
-	public Ability scrapAbilities(Integer pesdbId) {
+	private Ability scrapAbilities(Integer pesdbId,Scrapper scrapper) {
 		Player player = playerService.findPlayerByPesdbId(pesdbId);
 		
-		scrapper.setPage("?id=" + pesdbId);
+		//scrapper.setPage("?id=" + pesdbId);
 		HtmlTable mainTable = scrapper.getTable("//table[@class='player']");
 		HtmlTableCell attributesColumn2 = mainTable.getCellAt(MAIN_TABLE_ROW_ATTRIBUTES, SECOND_COLUMN);
 		HtmlTableCell attributesColumn3 = mainTable.getCellAt(MAIN_TABLE_ROW_ATTRIBUTES, THIRD_COLUMN);
@@ -178,8 +182,8 @@ public class ScrapService {
 		return playerService.saveAbility(ability);
 	}
 	
-	public List<Scout> scrapScouts(Integer pesdbId) {
-		scrapper.setPage("?id=" + pesdbId);
+	public List<Scout> scrapScouts(Integer pesdbId,Scrapper scrapper) {
+		//scrapper.setPage("?id=" + pesdbId);
 		Player player = playerService.findPlayerByPesdbId(pesdbId);
 		
 		if(player!=null) {

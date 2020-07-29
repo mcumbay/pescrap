@@ -3,6 +3,8 @@ package com.dfwcomputech.scrap.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
 @Service
 public class SearchService {
 	
+	private static final Logger logger = LogManager.getLogger();
 	@Autowired
 	private Scrapper scrapper;
 	
@@ -40,11 +43,15 @@ public class SearchService {
 			HtmlAnchor href = (HtmlAnchor)cells.get(1).getFirstChild();
 			player.setPesdbId(Integer.valueOf(href.getHrefAttribute().substring(6)));
 			player.setName(cells.get(1).asText());
-			
 			results.add(player);
 			//Saving the player on DB
 			playerService.savePlayer(player);
-			
+			try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e) {
+				
+				e.printStackTrace();
+			}
 		}
 		
 		return results;
