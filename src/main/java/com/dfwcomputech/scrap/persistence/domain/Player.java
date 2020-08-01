@@ -14,7 +14,7 @@ import javax.persistence.Table;
 public class Player {
 	@Id
 	@GeneratedValue(generator = "PLAYER_ID_GENERATOR")
-	@SequenceGenerator(name = "PLAYER_ID_GENERATOR", sequenceName = "PLAYER_SEQUENCE")
+	@SequenceGenerator(name = "PLAYER_ID_GENERATOR", sequenceName = "PLAYER_SEQUENCE",allocationSize=1)
 	@Column(name = "ID")
 	private Integer id;
 

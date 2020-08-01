@@ -1,7 +1,5 @@
 package com.dfwcomputech.scrap.service;
 
-import java.util.List;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +16,6 @@ import com.dfwcomputech.scrap.persistence.repository.PatchRepository;
 import com.dfwcomputech.scrap.persistence.repository.PlayerDetailRepository;
 import com.dfwcomputech.scrap.persistence.repository.PlayerRepository;
 import com.dfwcomputech.scrap.persistence.repository.ScoutRepository;
-import com.gargoylesoftware.htmlunit.html.HtmlTable;
-import com.gargoylesoftware.htmlunit.html.HtmlTableCell;
-import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
 
 @Service
 public class PlayerService {
@@ -37,6 +32,8 @@ public class PlayerService {
 	private AbilityRepository abilityRepository;
 	@Autowired
 	private ScoutRepository scoutRepository;
+	@Autowired
+	private ScrapService scrapService;
 	
 
 	public Player findPlayerByPesdbId(Integer pesdbId) {
@@ -49,8 +46,10 @@ public class PlayerService {
 			// Verify if the Id was provided
 			if (player.getPesdbId() != null)
 				// Verify if the id already exist on DB
-				if (!playerRepository.existsPlayerByPesdbId(player.getPesdbId()))
-					return playerRepository.save(player);
+				if (!playerRepository.existsPlayerByPesdbId(player.getPesdbId())) {	
+					Player completePlayer = scrapService.scrapPlayer(player.getPesdbId());
+					return playerRepository.save(completePlayer);
+				}
 				else {
 					logger.info("Player with Pes DB Id= {} already exists.", player.getPesdbId());
 					return playerRepository.findPlayerByPesdbId(player.getPesdbId());

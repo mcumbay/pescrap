@@ -26,8 +26,4 @@ public class ScrapServiceTest {
 		LoggerUtil.print(scrapService.scrapPlayer(MESSI));
 	}
 	
-	@Test
-	public void whenScrapScouts_thenPrint() {		
-		LoggerUtil.print(scrapService.scrapScouts(MESSI));
-	}
 }
