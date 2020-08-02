@@ -1,4 +1,4 @@
-package com.dfwcomputech.scrap.rest;
+package com.dfwcomputech.scrap.rest.controller;
 
 import java.util.ArrayList;
 import java.util.List;
