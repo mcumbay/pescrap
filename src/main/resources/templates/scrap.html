@@ -12,7 +12,6 @@
     <form method="POST" th:object="${searchForm}">
 		<h3>Pesdb Id:</h3>
 		<input type="text" th:field="*{id}"/>
-		<span th:text="${#fields.hasErrors('id')}">XXX</span>
       	<span class="validationError"
             th:if="${#fields.hasErrors('id')}"
             th:errors="*{id}">Pes Id Error</span>

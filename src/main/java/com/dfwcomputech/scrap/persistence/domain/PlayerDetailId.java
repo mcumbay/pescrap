@@ -34,6 +34,4 @@ public class PlayerDetailId implements Serializable{
 	public void setPlayerId(Integer playerId) {
 		this.playerId = playerId;
 	}
-	
-	
 }

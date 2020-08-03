@@ -3,8 +3,8 @@ package com.dfwcomputech.scrap.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,11 +25,12 @@ import com.gargoylesoftware.htmlunit.html.HtmlTable;
 import com.gargoylesoftware.htmlunit.html.HtmlTableCell;
 import com.gargoylesoftware.htmlunit.html.HtmlTableRow;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class ScrapService {
 
-	private static final Logger logger = LogManager.getLogger();
-	
 	private static final Integer MAIN_TABLE_ROW_ATTRIBUTES = 0;
 	private static final Integer MAIN_TABLE_ROW_LEVEL_BAR = 1;
 	private static final Integer MAIN_TABLE_ROW_IMAGE_AND_SOCIAL_MEDIA = 2;
@@ -62,8 +63,9 @@ public class ScrapService {
 	@Autowired
 	private PositionRepository positionRepository;
 	
+	@Transactional
 	public Player scrapPlayer(Integer pesdbId) {
-
+		log.info("Scraping ={}",pesdbId);
 		scrapper.setPage("?id=" + pesdbId);
 		HtmlTable mainTable = scrapper.getTable("//table[@class='player']");
 		HtmlTableCell attributesColumn1 = mainTable.getCellAt(MAIN_TABLE_ROW_ATTRIBUTES, FIRST_COLUMN);
@@ -77,26 +79,29 @@ public class ScrapService {
 		String nationalityName = scrapDetailString(attributesColumn1, 4);
 		String regionName = scrapDetailString(attributesColumn1, 5);
 		Nationality nationality = regionService.getNationality(nationalityName, regionName);
+		if(nationality==null) {
+			log.error("No Nationality, exiting...");
+			return null;
+		}
 		player.setNationality(nationality);
-		
 		player = playerService.savePlayer(player);
 
 		// 2. Getting Player Details for the current Patch
-		PlayerDetail detail = scrapPlayerDetails(pesdbId,scrapper);
+		PlayerDetail detail = scrapPlayerDetails(player.getId(),scrapper);
 
-		// 3. Getting Player Abilities (level 30)
-		Ability ability = scrapAbilities(pesdbId,scrapper);
+		// 3. Getting Player Abilities (level 1)
+		Ability ability = scrapAbilities(player.getId(),scrapper);
 		
 		//4. Getting Scouts
-		List<Scout> scouts = scrapScouts(pesdbId,scrapper);
+		List<Scout> scouts = scrapScouts(player,scrapper);
 
 		return player;
 	}
 
-	private PlayerDetail scrapPlayerDetails(Integer pesdbId,Scrapper scrapper) {
-		Player player = playerService.findPlayerByPesdbId(pesdbId);
-		
-		//scrapper.setPage("?id=" + pesdbId);
+	private PlayerDetail scrapPlayerDetails(Integer id,Scrapper scrapper) {
+		log.info("Scrapping Player Details for {}",id);
+		//Player player = playerService.findPlayerByPesdbId(pesdbId);
+
 		HtmlTable mainTable = scrapper.getTable("//table[@class='player']");		
 		HtmlTableCell attributesColumn1 = mainTable.getCellAt(MAIN_TABLE_ROW_ATTRIBUTES, FIRST_COLUMN);		
 		HtmlTableCell attributesColumn3 = mainTable.getCellAt(MAIN_TABLE_ROW_ATTRIBUTES, THIRD_COLUMN);
@@ -104,7 +109,7 @@ public class ScrapService {
 		
 		PlayerDetail detail = new PlayerDetail();
 
-		PlayerDetailId detailId = new PlayerDetailId(null, player.getId());
+		PlayerDetailId detailId = new PlayerDetailId(null, id);
 		detail.setId(detailId);
 		detail.setSquatNumber(Integer.valueOf(scrapDetailString(attributesColumn1, 1)));
 		detail.setHeight(Integer.valueOf(scrapDetailString(attributesColumn1, 6)));
@@ -112,7 +117,7 @@ public class ScrapService {
 		detail.setAge(Integer.valueOf(scrapDetailString(attributesColumn1, 8)));
 		detail.setFoot(scrapDetailString(attributesColumn1, 9));
 		detail.setCurrentCondition(scrapDetailString(attributesColumn1, 10));
-		detail.setOprAtLevel30(Integer.valueOf(scrapDetailString(attributesColumn3, 13)));
+		//detail.setOprAtLevel30(Integer.valueOf(scrapDetailString(attributesColumn3, 13)));
 				
 		String leagueName = scrapDetailString(attributesColumn1, 3);		
 		String teamName = scrapDetailString(attributesColumn1, 2);
@@ -138,16 +143,16 @@ public class ScrapService {
 		
 	}
 	
-	private Ability scrapAbilities(Integer pesdbId,Scrapper scrapper) {
-		Player player = playerService.findPlayerByPesdbId(pesdbId);
+	private Ability scrapAbilities(Integer id,Scrapper scrapper) {
+		log.info("Scrapping Abilities for {}",id);
 		
-		//scrapper.setPage("?id=" + pesdbId);
+
 		HtmlTable mainTable = scrapper.getTable("//table[@class='player']");
 		HtmlTableCell attributesColumn2 = mainTable.getCellAt(MAIN_TABLE_ROW_ATTRIBUTES, SECOND_COLUMN);
 		HtmlTableCell attributesColumn3 = mainTable.getCellAt(MAIN_TABLE_ROW_ATTRIBUTES, THIRD_COLUMN);
 		
 		Ability ability = new Ability();
-		AbilityId abilityId = new AbilityId(null, player.getId(), null);
+		AbilityId abilityId = new AbilityId(null, id, null);
 		ability.setId(abilityId);
 
 		ability.setAttackingProwness(Integer.valueOf(scrapDetailString(attributesColumn2, 0)));
@@ -177,17 +182,16 @@ public class ScrapService {
 		ability.setWeakFootAccuracy(Integer.valueOf(scrapDetailString(attributesColumn3, 9)));
 		ability.setForm(Integer.valueOf(scrapDetailString(attributesColumn3, 10)));
 		ability.setInjuryResistance(Integer.valueOf(scrapDetailString(attributesColumn3, 11)));
-		ability.setRating(Integer.valueOf(scrapDetailString(attributesColumn3, 13)));
+		//ability.setRating(Integer.valueOf(scrapDetailString(attributesColumn3, 13)));
 
 		return playerService.saveAbility(ability);
 	}
 	
-	public List<Scout> scrapScouts(Integer pesdbId,Scrapper scrapper) {
-		//scrapper.setPage("?id=" + pesdbId);
-		Player player = playerService.findPlayerByPesdbId(pesdbId);
-		
+	public List<Scout> scrapScouts(Player player,Scrapper scrapper) {
+		log.info("Scrapping Scouts for {}",player.getId());
+		List<Scout> scoutList=null;
 		if(player!=null) {
-			List<Scout> scoutList = new ArrayList<Scout>();
+			scoutList= new ArrayList<Scout>();
 			
 			HtmlTable scoutTable = scrapper.getTable("//table[@class='scouts']");
 			List<HtmlTableRow> scoutRows = scoutTable.getRows();		
@@ -211,9 +215,8 @@ public class ScrapService {
 					scoutList.add(scoutService.addScout(scout));
 				}
 			}
-			return scoutList;
 		}
-		return null;
+		return scoutList;
 	}
 	
 	private String scrapDetailString(HtmlTableCell tableCell, Integer row) {

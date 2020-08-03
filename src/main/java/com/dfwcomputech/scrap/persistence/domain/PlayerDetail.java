@@ -106,6 +106,4 @@ public class PlayerDetail {
 	public void setPlayingStyle(PlayingStyle playingStyle) {
 		this.playingStyle = playingStyle;
 	}
-
-		
 }

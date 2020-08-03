@@ -1,7 +1,5 @@
 package com.dfwcomputech.scrap.service;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
@@ -17,11 +15,12 @@ import com.dfwcomputech.scrap.persistence.repository.PlayerDetailRepository;
 import com.dfwcomputech.scrap.persistence.repository.PlayerRepository;
 import com.dfwcomputech.scrap.persistence.repository.ScoutRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class PlayerService {
 
-	private static final Logger logger = LogManager.getLogger();
-	
 	@Autowired
 	private PatchRepository patchRepository;
 	@Autowired
@@ -32,31 +31,24 @@ public class PlayerService {
 	private AbilityRepository abilityRepository;
 	@Autowired
 	private ScoutRepository scoutRepository;
-	@Autowired
-	private ScrapService scrapService;
-	
 
 	public Player findPlayerByPesdbId(Integer pesdbId) {
 		return playerRepository.findPlayerByPesdbId(pesdbId);
 	}
 	
 	public Player savePlayer(Player player) {
-		// Verify if there are player information
-		if (player != null)
-			// Verify if the Id was provided
-			if (player.getPesdbId() != null)
-				// Verify if the id already exist on DB
-				if (!playerRepository.existsPlayerByPesdbId(player.getPesdbId())) {	
-					Player completePlayer = scrapService.scrapPlayer(player.getPesdbId());
-					return playerRepository.save(completePlayer);
-				}
-				else {
-					logger.info("Player with Pes DB Id= {} already exists.", player.getPesdbId());
-					return playerRepository.findPlayerByPesdbId(player.getPesdbId());
-				} 
-										
-		return null;
-					
+		log.info("Saving player to DB");		
+		if ((player != null)&&(player.getPesdbId() != null)) {
+			if (!playerRepository.existsPlayerByPesdbId(player.getPesdbId())) {	
+				log.info("{}={}",player.getPesdbId(),player.getName());
+				return playerRepository.save(player);
+			}
+			else {
+				log.info("Player with Pes DB Id= {} already exists.", player.getPesdbId());
+				return playerRepository.findPlayerByPesdbId(player.getPesdbId());
+			} 
+		}							
+		return null;				
 	}
 
 	public PlayerDetail saveDetails(PlayerDetail detail) {
@@ -70,7 +62,7 @@ public class PlayerService {
 					detail.getId().setPatchId(currentPatch.getId());
 					return playerDetailRepository.save(detail);
 				} else
-					logger.info("Player Detail with[PatchId= {} PlayerId= {} ] already exists.", currentPatch.getId(),
+					log.info("Player Detail with[PatchId= {} PlayerId= {} ] already exists.", currentPatch.getId(),
 							detail.getId().getPlayerId());
 			}
 		}
@@ -89,7 +81,7 @@ public class PlayerService {
 					ability.getId().setLevel(level);
 					return abilityRepository.save(ability);
 				}else
-					logger.info("Ability with [PatchId ={} PlayerId ={} Level ={}] already exists.",currentPatch.getId(),
+					log.info("Ability with [PatchId ={} PlayerId ={} Level ={}] already exists.",currentPatch.getId(),
 							ability.getId().getPlayerId(),level);
 			}
 		}
@@ -113,7 +105,7 @@ public class PlayerService {
 			Patch currentPatch = patchRepository.findLatestPatch();
 			Player player = playerRepository.findById(scout.getPlayer().getId()).get();
 			if(player==null) {
-				logger.info("Player with Id= {} doesnt exists on DB",scout.getPlayer().getId());
+				log.info("Player with Id= {} doesnt exists on DB",scout.getPlayer().getId());
 				return null;
 			}
 				
