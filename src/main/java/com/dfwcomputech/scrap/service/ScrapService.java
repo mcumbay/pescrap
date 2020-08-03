@@ -135,8 +135,14 @@ public class ScrapService {
 		String playingStyleName = scrapDetailString(attributesColumn4, 1,false);
 		if(playingStyleName!=null) {
 			PlayingStyle playingStyle = playingStyleRepository.findTopByName(playingStyleName);
-			if(playingStyle!=null)
-				detail.setPlayingStyle(playingStyle);
+			if(playingStyle==null) {
+				playingStyle = new PlayingStyle();
+				playingStyle.setName(playingStyleName);
+				Integer currentMaxId = playingStyleRepository.findMaxId();
+				playingStyle.setId(currentMaxId==null?0:currentMaxId+1);
+				playingStyleRepository.save(playingStyle);
+			}
+			detail.setPlayingStyle(playingStyle);
 		}
 						
 		return playerService.saveDetails(detail);

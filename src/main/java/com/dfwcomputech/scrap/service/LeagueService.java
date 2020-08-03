@@ -20,7 +20,14 @@ public class LeagueService {
 		if(teamName!=null && !teamName.isBlank()) {
 			Team team = teamRepository.findByTeamName(teamName);
 			if(team==null) {
-				League league = leagueRepository.findByLeagueName(leagueName);				
+				League league = leagueRepository.findByLeagueName(leagueName);
+				if(league==null) {
+					league= new League();
+					league.setName(leagueName);
+					Integer currentId = leagueRepository.findMaxId();
+					league.setId(currentId==null?0:currentId+1);
+					league = leagueRepository.save(league);
+				}
 				team= new Team();
 				team.setName(teamName);
 				team.setLeague(league);

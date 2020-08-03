@@ -9,14 +9,14 @@
 	<h1>Player</h1>
 	<div>
 		<div>
-			Pes Id: <span th:tex="*{player.id}"></span>
+			Pes Id: <span th:text="*{player.id}"></span>
 		</div>
 		<div>
-			Name : <span th:tex="*{player.name}"></span>
+			Name : <span th:text="*{player.name}"></span>
 		</div>
 		<div>
 			Nationality:
-			<span th:tex="*{player.nationality.name}"></span>
+			<span th:text="*{player.nationality.name}"></span>
 		</div>
 		<a th:href="@{/}">Home</a>
 	</div>

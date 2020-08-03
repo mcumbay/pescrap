@@ -40,6 +40,8 @@ public class RegionService {
 				log.info("Region not found. Adding {} to DB", regionName);
 				region = new Region();
 				region.setName(regionName);
+				Integer currentId=  regionRepository.findMaxId();
+				region.setId(currentId==null?0:currentId+1);
 				region = regionRepository.save(region);
 			}
 			nationality= new Nationality();
