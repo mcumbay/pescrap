@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Scrap PLayer</title>
+ <link rel="stylesheet" th:href="@{/styles.css}" />
+</head>
+<body>
+<h1>Scrap a player</h1>
+    <img th:src="@{/images/home.jpg}"/>
+    
+    <form method="POST" th:object="${searchForm}">
+		<h3>Pesdb Id:</h3>
+		<input type="text" th:field="*{id}"/>
+		<span th:text="${#fields.hasErrors('id')}">XXX</span>
+      	<span class="validationError"
+            th:if="${#fields.hasErrors('id')}"
+            th:errors="*{id}">Pes Id Error</span>
+       	
+        <div><span><button>Scrap it!</button></span></div>
+    </form>
+</body>
+</html>
