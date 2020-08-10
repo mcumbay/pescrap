@@ -1,5 +1,6 @@
 package com.dfwcomputech.scrap.persistence.repository;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,4 +15,7 @@ public interface PlayerDetailRepository extends JpaRepository<PlayerDetail, Play
 	public default Boolean exists(Integer patchId,Integer playerId) {
 		return existsPlayerDetailByIdPatchIdAndIdPlayerId(patchId,playerId);
 	} 
+	
+	@EntityGraph(attributePaths = {"team"})
+	public PlayerDetail findByIdPatchIdAndIdPlayerId(Integer patchId,Integer playerId);
 }

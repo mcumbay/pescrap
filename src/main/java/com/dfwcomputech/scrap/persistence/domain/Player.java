@@ -9,8 +9,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import lombok.Data;
+
 @Entity
 @Table(name = "PLAYER")
+@Data
 public class Player {
 	@Id
 	@GeneratedValue(generator = "PLAYER_ID_GENERATOR")
@@ -28,38 +31,4 @@ public class Player {
 	@JoinColumn(name = "NATIONALITYID")
 	private Nationality nationality;
 	
-	
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public Integer getPesdbId() {
-		return pesdbId;
-	}
-
-	public void setPesdbId(Integer pesdbId) {
-		this.pesdbId = pesdbId;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Nationality getNationality() {
-		return nationality;
-	}
-
-	public void setNationality(Nationality nationality) {
-		this.nationality = nationality;
-	}
-	
-
 }

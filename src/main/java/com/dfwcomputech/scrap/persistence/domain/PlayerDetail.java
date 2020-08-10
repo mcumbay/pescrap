@@ -7,8 +7,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.Data;
+
+
 @Entity
 @Table(name="PLAYER_DETAIL")
+@Data
 public class PlayerDetail {
 	@EmbeddedId
 	private PlayerDetailId id;
@@ -39,71 +43,7 @@ public class PlayerDetail {
 	@ManyToOne
 	@JoinColumn(name = "PLAYINGSTYLEID")
 	private PlayingStyle playingStyle;
+
+
 	
-	public PlayerDetailId getId() {
-		return id;
-	}
-	public void setId(PlayerDetailId id) {
-		this.id = id;
-	}
-	public Integer getSquatNumber() {
-		return squatNumber;
-	}
-	public void setSquatNumber(Integer squatNumber) {
-		this.squatNumber = squatNumber;
-	}
-	public Team getTeam() {
-		return team;
-	}
-	public void setTeam(Team team) {
-		this.team = team;
-	}
-	public Integer getHeight() {
-		return height;
-	}
-	public void setHeight(Integer height) {
-		this.height = height;
-	}
-	public Integer getWeight() {
-		return weight;
-	}
-	public void setWeight(Integer weight) {
-		this.weight = weight;
-	}
-	public Integer getAge() {
-		return age;
-	}
-	public void setAge(Integer age) {
-		this.age = age;
-	}
-	public String getFoot() {
-		return foot;
-	}
-	public void setFoot(String foot) {
-		this.foot = foot;
-	}
-	public String getCurrentCondition() {
-		return currentCondition;
-	}
-	public void setCurrentCondition(String currentCondition) {
-		this.currentCondition = currentCondition;
-	}
-	public Position getPreferedPosition() {
-		return preferedPosition;
-	}
-	public void setPreferedPosition(Position preferedPosition) {
-		this.preferedPosition = preferedPosition;
-	}
-	public Integer getOprAtLevel30() {
-		return oprAtLevel30;
-	}
-	public void setOprAtLevel30(Integer oprAtLevel30) {
-		this.oprAtLevel30 = oprAtLevel30;
-	}
-	public PlayingStyle getPlayingStyle() {
-		return playingStyle;
-	}
-	public void setPlayingStyle(PlayingStyle playingStyle) {
-		this.playingStyle = playingStyle;
-	}
 }

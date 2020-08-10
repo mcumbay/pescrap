@@ -32,8 +32,9 @@ public class PlayerService {
 	@Autowired
 	private ScoutRepository scoutRepository;
 
+
 	public Player findPlayerByPesdbId(Integer pesdbId) {
-		return playerRepository.findPlayerByPesdbId(pesdbId);
+		return playerRepository.findByPesdbId(pesdbId);
 	}
 	
 	public Player savePlayer(Player player) {
@@ -45,7 +46,7 @@ public class PlayerService {
 			}
 			else {
 				log.info("Player with Pes DB Id= {} already exists.", player.getPesdbId());
-				return playerRepository.findPlayerByPesdbId(player.getPesdbId());
+				return playerRepository.findByPesdbId(player.getPesdbId());
 			} 
 		}							
 		return null;				
@@ -90,7 +91,7 @@ public class PlayerService {
 	
 	//By Default we save at level 30
 	public Ability saveAbility(Ability ability) {
-		return saveAbilityByLevel(ability,30);
+		return saveAbilityByLevel(ability,1);
 	}
 		
 	public Scout saveScout(Scout scout) {
@@ -119,4 +120,12 @@ public class PlayerService {
 		return null;
 	}
 	
+	public PlayerDetail findCurrentDetails(Integer pesdbId) {
+		
+		Patch currentPatch = patchRepository.findLatestPatch();
+		Player player = playerRepository.findByPesdbId(pesdbId);
+		if(player!=null)
+			return playerDetailRepository.findByIdPatchIdAndIdPlayerId(currentPatch.getId(),player.getId());
+		return null;
+	}
 }

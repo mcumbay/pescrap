@@ -2,23 +2,42 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-	<link rel="stylesheet" th:href="@{/styles.css}" />
-	<title>Player</title>
+<link rel="stylesheet" th:href="@{/styles.css}" />
+<title>Player</title>
 </head>
 <body>
 	<h1>Player</h1>
 	<div>
+		<img th:src="@{/images/home.jpg}" />
 		<div>
-			Pes Id: <span th:text="*{player.id}"></span>
+			<div>
+				Pes Id: <span th:text="*{player.pesdbId}"></span>
+			</div>
+			<div>
+				Name : <span th:text="*{player.name}"></span>
+			</div>
+			<div>
+				Nationality: <span th:text="*{player.nationality.name}"></span>
+			</div>
+			<div>
+				Team: <span th:text="*{playerDetail.team.name}"></span>
+			</div>
+			<div>
+				League: <span th:text="*{playerDetail.team.league.name}"></span>
+			</div>
+			<div>
+				Squat Number: <span th:text="*{playerDetail.squatNumber}"></span>
+			</div>
+			<div>
+				Height: <span th:text="*{playerDetail.height}"></span>
+			</div>
+			<div>
+				Weight: <span th:text="*{playerDetail.weight}"></span>
+			</div>
+			<div>
+				Age: <span th:text="*{playerDetail.age}"></span>
+			</div>			
+			<a th:href="@{/}">Home</a>
 		</div>
-		<div>
-			Name : <span th:text="*{player.name}"></span>
-		</div>
-		<div>
-			Nationality:
-			<span th:text="*{player.nationality.name}"></span>
-		</div>
-		<a th:href="@{/}">Home</a>
-	</div>
 </body>
 </html>

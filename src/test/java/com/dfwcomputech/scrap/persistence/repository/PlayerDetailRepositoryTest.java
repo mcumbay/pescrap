@@ -45,7 +45,7 @@ public class PlayerDetailRepositoryTest {
 	}
 	
 	private PlayerDetail createTestPlayerDetail(Integer pesdbId) {
-		Player player = playerRepository.findPlayerByPesdbId(pesdbId);
+		Player player = playerRepository.findByPesdbId(pesdbId);
 		Patch patch = patchRepository.findLatestPatch();
 		
 		PlayerDetail playerDetail = new PlayerDetail();
