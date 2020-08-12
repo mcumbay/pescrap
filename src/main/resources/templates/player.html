@@ -2,42 +2,66 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-<link rel="stylesheet" th:href="@{/styles.css}" />
-<title>Player</title>
+	<title>Player Details</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" media="screen"
+		th:href="@{/css/bootstrap.min.css}" />
+	<link rel="stylesheet" media="screen" th:href="@{/css/pescrap.css}" />
+	<script th:src="@{/js/jquery-3.5.1.js}"></script>
+	<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </head>
 <body>
-	<h1>Player</h1>
-	<div>
-		<img th:src="@{/images/home.jpg}" />
-		<div>
-			<div>
-				Pes Id: <span th:text="*{player.pesdbId}"></span>
+	<div class="bg page-holder bg-cover">
+		<div class="container">
+			<div class="container">
+				<div>
+					<h1>Player Details</h1>
+				</div>
+				<div>
+					<div class="pes-card">
+						<div class="row odd-row">
+							 <div class="col"><label>Pes Id:</label></div>
+							 <div class="col"><span th:text="*{player.pesdbId}"></span></div>
+						</div>
+						<div class="row even-row">
+							<div class="col"><label>Name :</label></div>
+							<div class="col"><span th:text="*{player.name}"></span></div>
+						</div>
+						<div class="row odd-row">
+							<div class="col"><label>Nationality:</label></div>
+							<div class="col"><span th:text="*{player.nationality.name}"></span></div>
+						</div>
+						<div class="row even-row">
+							<div class="col"><label>Team:</label></div> 
+							<div class="col"><span th:if="${#objects.nullSafe(playerDetail.team,default)}" th:text="*{playerDetail.team.name}"></span></div>
+						</div>
+						<div class="row odd-row">
+							<div class="col"><label>League:</label></div>
+							<div class="col"><span th:if="${#objects.nullSafe(playerDetail.team,default)}" th:text="*{playerDetail.team.league.name}"></span></div>
+						</div>
+						<div class="row even-row">
+							<div class="col"><label>Squat Number:</label></div>
+							<div class="col"><span th:text="*{playerDetail.squatNumber}"></span></div>
+						</div>
+						<div class="row odd-row">
+							<div class="col"><label>Height:</label></div>
+							<div class="col"><span th:text="*{playerDetail.height}"></span> cm.</div>
+						</div>
+						<div class="row even-row">
+							<div class="col"><label>Weight:</label></div>
+							<div class="col"><span th:text="*{playerDetail.weight}"></span> kg.</div>
+						</div>
+						<div class="row odd-row">
+							<div class="col"><label>Age:</label></div>
+							<div class="col"><span th:text="*{playerDetail.age}"></span> years</div>
+						</div>
+						<div class="row">
+							<a class="btn btn-light btn-lg btn-block" th:href="@{/}">Home</a>
+						</div>
+					</div>
+				</div>
 			</div>
-			<div>
-				Name : <span th:text="*{player.name}"></span>
-			</div>
-			<div>
-				Nationality: <span th:text="*{player.nationality.name}"></span>
-			</div>
-			<div>
-				Team: <span th:text="*{playerDetail.team.name}"></span>
-			</div>
-			<div>
-				League: <span th:text="*{playerDetail.team.league.name}"></span>
-			</div>
-			<div>
-				Squat Number: <span th:text="*{playerDetail.squatNumber}"></span>
-			</div>
-			<div>
-				Height: <span th:text="*{playerDetail.height}"></span>
-			</div>
-			<div>
-				Weight: <span th:text="*{playerDetail.weight}"></span>
-			</div>
-			<div>
-				Age: <span th:text="*{playerDetail.age}"></span>
-			</div>			
-			<a th:href="@{/}">Home</a>
 		</div>
+	</div>
 </body>
 </html>

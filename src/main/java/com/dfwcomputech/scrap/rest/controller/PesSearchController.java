@@ -22,7 +22,7 @@ public class PesSearchController {
 	@Autowired
 	private ScrapService scrapService;
 	
-	@RequestMapping("/search")
+	//@RequestMapping("/search")
 	public List<Player> search(
 			@RequestParam(value="speed", required = false)String speed,
 			@RequestParam(value="overall_rating", required = false) String rating,
@@ -43,7 +43,7 @@ public class PesSearchController {
 		return searchService.search(filters);
 	}
 	
-	@RequestMapping("/scrap")
+	//@RequestMapping("/scrap")
 	public Player scrapPlayer(@RequestParam(value="id", required = false)String pesdbId) {
 		Integer id = Integer.valueOf(pesdbId);
 		return scrapService.scrapPlayer(id);

@@ -1,0 +1,41 @@
+:root {
+  --pes-gray: rgba(200, 199, 199, 0.9);
+  --pes-light-gray: rgba(209, 208, 208, 0.9);
+  --pes-purple: rbga(181,0,255,1)
+}
+
+body{
+	color: white;
+}
+.page-holder {
+  min-height: 100vh;
+}
+
+.bg-cover {
+  background-size: cover !important;
+}
+
+.bg{
+	background: url("../images/bckgrnd01.png");
+}
+
+.pes-card{
+	width:500px
+}
+
+.odd-row {
+	background-color: var(--pes-gray);
+	font-size: x-large;
+	color: black;
+	font-weight: bold;
+}
+
+.even-row{
+	background-color: var(--pes-light-gray);
+	font-size: x-large;
+	color: black;
+}
+
+.btn-purple{
+	color:var(--pes-purple);
+}

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.dfwcomputech.scrap.persistence.domain.Player;
 import com.dfwcomputech.scrap.service.ScrapService;
-import com.dfwcomputech.scrap.web.form.SearchForm;
+import com.dfwcomputech.scrap.web.form.ScrapByPesIdForm;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,17 +29,17 @@ public class ScrapController {
 	  @GetMapping
 	  public String prepareHome(Model model) {
 		  log.info("Preparing Scrap");
-		  model.addAttribute("searchForm", new SearchForm());
+		  model.addAttribute("searchForm", new ScrapByPesIdForm());
 	    return "scrap";	
 	  }
 	  
 	  @PostMapping
-	  public String scrapPlayer(@Valid @ModelAttribute("searchForm")SearchForm searchForm,
+	  public String scrapPlayer(@Valid @ModelAttribute("searchForm")ScrapByPesIdForm searchForm,
 			  Errors errors, Model model) {
 		  log.info("Scrapping player with id ={} ",searchForm.getId());
-		    if (errors.hasErrors()) {
+		    if (errors.hasErrors()) 
 		        return "scrap";
-		      }
+		      
 		  Integer pesdbId= Integer.valueOf(searchForm.getId());
 		  Player player = scrapService.scrapPlayer(pesdbId);
 	    return "redirect:/players/"+player.getPesdbId();	

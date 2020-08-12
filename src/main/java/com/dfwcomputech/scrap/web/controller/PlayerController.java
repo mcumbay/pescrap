@@ -22,7 +22,6 @@ public class PlayerController {
 	@Autowired
 	private PlayerService playerService;
 
-	
 	@GetMapping(value="/{id}")
 	  public String preparePlayerPage(
 	        @PathVariable String id, Model model) {
@@ -31,7 +30,10 @@ public class PlayerController {
 	    Player player = playerService.findPlayerByPesdbId(pesdbId);
 	    PlayerDetail playerDetail = playerService.findCurrentDetails(pesdbId);
 	    Team team = playerDetail.getTeam();
-	    log.info("The team is {}",team.getName());
+	    if(team== null)
+	    	log.error("Team information missing");
+	    else
+	    	log.info("The team is {}",team.getName());
 	    model.addAttribute("player",player);
 	    model.addAttribute("playerDetail",playerDetail);
 	    return "player";

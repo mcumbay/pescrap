@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Search Player</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" media="screen"
+	th:href="@{/css/bootstrap.min.css}" />
+<link rel="stylesheet" media="screen" th:href="@{/css/pescrap.css}" />
+<script th:src="@{/js/jquery-3.5.1.js}"></script>
+	<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</head>
+<body>
+<div class="bg page-holder bg-cover">
+	<div class="container">
+		<div class="row">
+			<h1>Search</h1>
+		</div>
+		<div class="row">
+		    <form method="POST" th:object="${searchPlayerForm}">
+		    	<div class="form-group">
+					<label>Min Speed:</label>
+					<input type="number" class="form-control"  min="40" max="99" th:field="*{minSpeed}"/>
+			      	<span class="validationError"
+			            th:if="${#fields.hasErrors('minSpeed')}"
+			            th:errors="*{id}">Min Speed Error</span>
+		       	</div>
+		       	<div class="form-group">
+					<label>Max Speed:</label>
+					<input type="number" class="form-control"  min="40" max="99" th:field="*{maxSpeed}"/>
+			      	<span class="validationError"
+			            th:if="${#fields.hasErrors('maxSpeed')}"
+			            th:errors="*{id}">Max Speed Error</span>
+		       	</div>
+		        <div><button class="btn btn-dark">Search!</button></div>
+		    </form>
+		</div>
+	</div>
+</div>
+</body>
+</html>

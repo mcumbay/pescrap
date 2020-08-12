@@ -5,7 +5,7 @@ import javax.validation.constraints.NotEmpty;
 import lombok.Data;
 
 @Data
-public class SearchForm {
+public class ScrapByPesIdForm {
 	
 	@NotEmpty
 	private String id;

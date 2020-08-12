@@ -33,7 +33,7 @@ public class LeagueService {
 				team.setLeague(league);
 				return teamRepository.save(team);
 			}
-				
+			return team;	
 		}
 		return null;
 	}

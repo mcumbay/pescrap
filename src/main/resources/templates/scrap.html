@@ -1,22 +1,36 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+	xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Scrap PLayer</title>
- <link rel="stylesheet" th:href="@{/styles.css}" />
+	<title>Scrap PLayer</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" media="screen"
+		th:href="@{/css/bootstrap.min.css}" />
+	<link rel="stylesheet" media="screen" th:href="@{/css/pescrap.css}" />
+	<script th:src="@{/js/jquery-3.5.1.js}"></script>
+	<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </head>
 <body>
-<h1>Scrap a player</h1>
-    <img th:src="@{/images/home.jpg}"/>
-    
-    <form method="POST" th:object="${searchForm}">
-		<h3>Pesdb Id:</h3>
-		<input type="text" th:field="*{id}"/>
-      	<span class="validationError"
-            th:if="${#fields.hasErrors('id')}"
-            th:errors="*{id}">Pes Id Error</span>
-       	
-        <div><span><button>Scrap it!</button></span></div>
-    </form>
+	<div class="bg page-holder bg-cover">
+		<div class="container">
+			<div class="row">
+				<h1>Scrap a player</h1>
+			</div>
+			<div class="row">
+				<form method="POST" th:object="${searchForm}">
+				 	<div class="form-group">
+						<label>Pesdb Id:</label>
+						<input type="text" class="form-control" th:field="*{id}" /> 
+						<span class="validationError"
+							th:if="${#fields.hasErrors('id')}" th:errors="*{id}">Pes Id
+							Error</span>
+					</div>
+	
+					<button class="btn btn-dark">Scrap it!</button>
+	
+				</form>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
