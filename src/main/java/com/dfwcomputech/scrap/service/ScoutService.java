@@ -3,7 +3,7 @@ package com.dfwcomputech.scrap.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.dfwcomputech.scrap.persistence.domain.Scout;
+import com.dfwcomputech.scrap.persistence.domain.Combination;
 import com.dfwcomputech.scrap.persistence.repository.PatchRepository;
 import com.dfwcomputech.scrap.persistence.repository.ScoutRepository;
 
@@ -16,7 +16,7 @@ public class ScoutService {
 	private PatchRepository patchRepository;
 	
 	
-	public Scout addScout(Scout scout) {		
+	public Combination addScout(Combination scout) {		
 		if(scout!=null) {
 			//Verify Player Id is present
 			if(scout.getPlayer()!=null && scout.getPlayer().getId()!=null) {

@@ -10,7 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.dfwcomputech.scrap.common.LoggerUtil;
 import com.dfwcomputech.scrap.persistence.domain.Player;
-import com.dfwcomputech.scrap.persistence.domain.Scout;
+import com.dfwcomputech.scrap.persistence.domain.Combination;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -25,7 +25,7 @@ public class PlayerServiceTest {
 		
 	@Test
 	public void whenSaveScout_thenPrint() {
-		Scout scout = new Scout();
+		Combination scout = new Combination();
 		Player player= playerService.findPlayerByPesdbId(NEYMAR);
 				
 		scout.setPlayer(player);

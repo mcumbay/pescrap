@@ -42,7 +42,7 @@ public class ScrapController {
 		      
 		  Integer pesdbId= Integer.valueOf(searchForm.getId());
 		  Player player = scrapService.scrapPlayer(pesdbId);
-	    return "redirect:/players/"+player.getPesdbId();	
+	    return "redirect:/players/"+player.getId();	
 	  }
 	  
 

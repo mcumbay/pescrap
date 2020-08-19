@@ -1,14 +1,17 @@
 package com.dfwcomputech.scrap.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import com.dfwcomputech.scrap.persistence.domain.Ability;
+import com.dfwcomputech.scrap.persistence.domain.AbilityId;
 import com.dfwcomputech.scrap.persistence.domain.Patch;
 import com.dfwcomputech.scrap.persistence.domain.Player;
 import com.dfwcomputech.scrap.persistence.domain.PlayerDetail;
-import com.dfwcomputech.scrap.persistence.domain.Scout;
+import com.dfwcomputech.scrap.persistence.domain.Combination;
 import com.dfwcomputech.scrap.persistence.repository.AbilityRepository;
 import com.dfwcomputech.scrap.persistence.repository.PatchRepository;
 import com.dfwcomputech.scrap.persistence.repository.PlayerDetailRepository;
@@ -33,6 +36,9 @@ public class PlayerService {
 	private ScoutRepository scoutRepository;
 
 
+	public Player findPlayerById(Integer id) {
+		return playerRepository.findById(id).orElse(null);
+	}
 	public Player findPlayerByPesdbId(Integer pesdbId) {
 		return playerRepository.findByPesdbId(pesdbId);
 	}
@@ -89,12 +95,12 @@ public class PlayerService {
 		return null;
 	}
 	
-	//By Default we save at level 30
+	//By Default we save at level 1s
 	public Ability saveAbility(Ability ability) {
 		return saveAbilityByLevel(ability,1);
 	}
 		
-	public Scout saveScout(Scout scout) {
+	public Combination saveScout(Combination scout) {
 		//Verify that there are scout information
 		if(scout!=null && 
 			scout.getChance()!=null &&
@@ -112,7 +118,7 @@ public class PlayerService {
 				
 			scout.setPatch(currentPatch);
 			scout.setPlayer(player);
-			Example<Scout> scoutExample = Example.of(scout);
+			Example<Combination> scoutExample = Example.of(scout);
 			if(!scoutRepository.exists(scoutExample)) {
 				return scoutRepository.save(scout);
 			}
@@ -120,12 +126,24 @@ public class PlayerService {
 		return null;
 	}
 	
-	public PlayerDetail findCurrentDetails(Integer pesdbId) {
-		
-		Patch currentPatch = patchRepository.findLatestPatch();
-		Player player = playerRepository.findByPesdbId(pesdbId);
-		if(player!=null)
-			return playerDetailRepository.findByIdPatchIdAndIdPlayerId(currentPatch.getId(),player.getId());
+	public PlayerDetail findCurrentDetails(Integer id) {
+		if(id!=null) {
+			Patch currentPatch = patchRepository.findLatestPatch();
+			return playerDetailRepository.findByIdPatchIdAndIdPlayerId(currentPatch.getId(),id);
+		}
+		log.error("Id cant be null");
+		return null;
+	}
+	
+	public Ability findAbilitiesByLevel(Integer id, Integer level) {
+		if(id!=null) {
+			if(level == null)
+				level=1;
+			Patch currentPatch = patchRepository.findLatestPatch();
+			AbilityId abilityId = new AbilityId(currentPatch.getId(), id, level);
+			return abilityRepository.findById(abilityId).orElse(null);
+		}
+		log.error("Id cant be null");
 		return null;
 	}
 }

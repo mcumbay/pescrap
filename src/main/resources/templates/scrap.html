@@ -16,8 +16,9 @@
 			<div class="row">
 				<h1>Scrap a player</h1>
 			</div>
-			<div class="row">
+			<div class="pes-card">
 				<form method="POST" th:object="${searchForm}">
+					<input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
 				 	<div class="form-group">
 						<label>Pesdb Id:</label>
 						<input type="text" class="form-control" th:field="*{id}" /> 
@@ -25,8 +26,8 @@
 							th:if="${#fields.hasErrors('id')}" th:errors="*{id}">Pes Id
 							Error</span>
 					</div>
-	
-					<button class="btn btn-dark">Scrap it!</button>
+					<a class="btn btn-light btn-lg btn-block" th:href="@{/}">Home</a>
+					<button class="btn btn-light btn-lg btn-block">Scrap it!</button>
 	
 				</form>
 			</div>

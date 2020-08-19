@@ -25,17 +25,23 @@ body{
 
 .odd-row {
 	background-color: var(--pes-gray);
-	font-size: x-large;
+	font-size: large;
 	color: black;
-	font-weight: bold;
+
 }
 
 .even-row{
 	background-color: var(--pes-light-gray);
-	font-size: x-large;
+	font-size: large;
 	color: black;
 }
 
 .btn-purple{
 	color:var(--pes-purple);
 }
+
+.posGK > span { background-color: rgb(219, 161,  16); border-top-color: rgb(226, 179,  60); border-bottom-color: rgb(151, 111,  10); }
+.posDF > span { background-color: rgb( 35, 105, 217); border-top-color: rgb( 76, 133, 224); border-bottom-color: rgb( 24,  72, 150); }
+.posMF > span { background-color: rgb( 75, 159,  35); border-top-color: rgb(108, 177,  75); border-bottom-color: rgb( 51, 110,  23); }
+.posFW > span { color:white; background-color: rgb(190,  38,  46); border-top-color: rgb(202,  78,  84); border-bottom-color: rgb(131,  25,  31); }
+

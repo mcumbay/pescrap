@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.dfwcomputech.scrap.persistence.domain.Ability;
 import com.dfwcomputech.scrap.persistence.domain.Player;
 import com.dfwcomputech.scrap.persistence.domain.PlayerDetail;
-import com.dfwcomputech.scrap.persistence.domain.Team;
 import com.dfwcomputech.scrap.service.PlayerService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,18 +24,21 @@ public class PlayerController {
 
 	@GetMapping(value="/{id}")
 	  public String preparePlayerPage(
-	        @PathVariable String id, Model model) {
-		log.info("Preparing page for pesId ={}",id);
-		 Integer pesdbId= Integer.valueOf(id);
-	    Player player = playerService.findPlayerByPesdbId(pesdbId);
-	    PlayerDetail playerDetail = playerService.findCurrentDetails(pesdbId);
-	    Team team = playerDetail.getTeam();
-	    if(team== null)
-	    	log.error("Team information missing");
-	    else
-	    	log.info("The team is {}",team.getName());
+	        @PathVariable Integer id, Model model) {
+		log.info("Preparing Player Details for id={}",id);
+		//Integer id= Integer.valueOf(id);
+	    Player player = playerService.findPlayerById(id);
+	    PlayerDetail playerDetail = playerService.findCurrentDetails(id);
 	    model.addAttribute("player",player);
 	    model.addAttribute("playerDetail",playerDetail);
 	    return "player";
 	  }
+	
+	@GetMapping(value="/{id}/abilities")
+	public  String prepareAbilities(@PathVariable Integer id, Model model) {
+		log.info("Preparing Player Abilities for id={}",id);
+		Ability ability = playerService.findAbilitiesByLevel(id,1);
+		model.addAttribute("ability",ability);
+		return "abilities";
+	}
 }

@@ -10,17 +10,17 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="SCOUT")
-public class Scout {
+@Table(name="COMBINATION")
+public class Combination {
 
 	@Id
-	@GeneratedValue(generator = "SCOUT_ID_GENERATOR")
-	@SequenceGenerator(name = "SCOUT_ID_GENERATOR", sequenceName = "SCOUT_SEQUENCE",allocationSize=1)
+	@GeneratedValue(generator = "COMBINATION_ID_GENERATOR")
+	@SequenceGenerator(name = "COMBINATION_ID_GENERATOR", sequenceName = "COMBINATION_SEQUENCE",allocationSize=1)
 	@Column(name="ID")
 	private Integer id;
 	
 	@ManyToOne
-	@JoinColumn(name="PATCHID", nullable = false)	
+	@JoinColumn(name="PATCHID", nullable = false)
 	private Patch patch;
 	
 	@ManyToOne

@@ -1,7 +1,7 @@
 SELECT * FROM ABILITY_LEVEL
 SELECT * FROM POSITION_RATING
 SELECT * FROM PLAYER_DETAIL
-SELECT * FROM SCOUT
+SELECT * FROM COMBINATION
 SELECT * FROM NATIONALITY
 SELECT * FROM REGION
 SELECT * FROM LEAGUE
@@ -19,4 +19,8 @@ WHERE playerid IN (SELECT PLAYERID FROM PUBLIC.PLAYER_DETAIL  WHERE TEAMID  IS N
 DELETE FROM PLAYER_DETAIL WHERE teamid IS NULL
 
 -- To Disconnect DB
-shutdown SQL 
+shutdown 
+
+--Spring SECURITY
+SELECT email AS username, password, enabled FROM USERS WHERE email='miguel.cumbay@live.com'
+SELECT u.email as username, a.authority from AUTHORITIES as a inner join USERS u on a.userid = u.id where u.email='miguel.cumbay@live.com'

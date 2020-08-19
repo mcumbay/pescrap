@@ -3,11 +3,11 @@
 	xmlns:th="http://www.thymeleaf.org">
 <head>
 <title th:text="#{view.home.title}">Welcome!</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link rel="stylesheet" media="screen"
-	th:href="@{/css/bootstrap.min.css}" />
-<link rel="stylesheet" media="screen" th:href="@{/css/pescrap.css}" />
-<script th:src="@{/js/jquery-3.5.1.js}"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="stylesheet" media="screen"
+		th:href="@{/css/bootstrap.min.css}" />
+	<link rel="stylesheet" media="screen" th:href="@{/css/pescrap.css}" />
+	<script th:src="@{/js/jquery-3.5.1.js}"></script>
 	<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
 </head>
 <body>
@@ -16,9 +16,9 @@
 			<div class="row">
 				<h1>Welcome to Pescrap 2020</h1>
 			</div>
-			<div class="row">
-				<a class="btn btn-dark" th:href="@{/scrap}">Scrap a player</a> 
-				<a class="btn btn-dark" th:href="@{/search}">Search Players</a>
+			<div class="pes-card">
+				<a class="btn btn-light btn-lg btn-block" th:href="@{/scrap}">Scrap a player</a> 
+				<a class="btn btn-light btn-lg btn-block" th:href="@{/search}">Search Players</a>
 			</div>
 		</div>
 	</div>

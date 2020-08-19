@@ -3,6 +3,8 @@
 #Set-ExecutionPolicy RemoteSigned
 #Set-ExecutionPolicy Restricted
 #Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process 
+#netstat -ano | findstr 8080
+#taskkill /F /PID 12345
 cls
 cd $PSScriptRoot
 cd ..

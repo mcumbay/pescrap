@@ -17,7 +17,7 @@ import com.dfwcomputech.scrap.persistence.domain.PlayerDetail;
 import com.dfwcomputech.scrap.persistence.domain.PlayerDetailId;
 import com.dfwcomputech.scrap.persistence.domain.PlayingStyle;
 import com.dfwcomputech.scrap.persistence.domain.Position;
-import com.dfwcomputech.scrap.persistence.domain.Scout;
+import com.dfwcomputech.scrap.persistence.domain.Combination;
 import com.dfwcomputech.scrap.persistence.domain.Team;
 import com.dfwcomputech.scrap.persistence.repository.PlayingStyleRepository;
 import com.dfwcomputech.scrap.persistence.repository.PositionRepository;
@@ -93,7 +93,7 @@ public class ScrapService {
 		Ability ability = scrapAbilities(player.getId(),scrapper);
 		
 		//4. Getting Scouts
-		List<Scout> scouts = scrapScouts(player,scrapper);
+		List<Combination> scouts = scrapScouts(player,scrapper);
 
 		return player;
 	}
@@ -161,43 +161,46 @@ public class ScrapService {
 		AbilityId abilityId = new AbilityId(null, id, null);
 		ability.setId(abilityId);
 
-		ability.setAttackingProwness(Integer.valueOf(scrapDetailString(attributesColumn2, 0)));
+		ability.setOffensiveAwareness(Integer.valueOf(scrapDetailString(attributesColumn2, 0)));
 		ability.setBallControl(Integer.valueOf(scrapDetailString(attributesColumn2, 1)));
 		ability.setDribbling(Integer.valueOf(scrapDetailString(attributesColumn2, 2)));
-		ability.setLowPass(Integer.valueOf(scrapDetailString(attributesColumn2, 3)));
-		ability.setLoftedPass(Integer.valueOf(scrapDetailString(attributesColumn2, 4)));
-		ability.setFinishing(Integer.valueOf(scrapDetailString(attributesColumn2, 5)));
-		ability.setPlaceKicking(Integer.valueOf(scrapDetailString(attributesColumn2, 6)));
-		ability.setSwerve(Integer.valueOf(scrapDetailString(attributesColumn2, 7)));
-		ability.setHeader(Integer.valueOf(scrapDetailString(attributesColumn2, 8)));
-		ability.setDefensiveProwness(Integer.valueOf(scrapDetailString(attributesColumn2, 9)));
-		ability.setBallWinning(Integer.valueOf(scrapDetailString(attributesColumn2, 10)));
-		ability.setKickingPower(Integer.valueOf(scrapDetailString(attributesColumn2, 11)));
-		ability.setSpeed(Integer.valueOf(scrapDetailString(attributesColumn2, 12)));
-		ability.setExplosivePower(Integer.valueOf(scrapDetailString(attributesColumn2, 13)));
-		ability.setUnwaveringBalance(Integer.valueOf(scrapDetailString(attributesColumn2, 14)));
-		ability.setPhysicalContact(Integer.valueOf(scrapDetailString(attributesColumn3, 0)));
-		ability.setJump(Integer.valueOf(scrapDetailString(attributesColumn3, 1)));
-		ability.setGoalkeeping(Integer.valueOf(scrapDetailString(attributesColumn3, 2)));
-		ability.setGkcatch(Integer.valueOf(scrapDetailString(attributesColumn3, 3)));
-		ability.setClearing(Integer.valueOf(scrapDetailString(attributesColumn3, 4)));
-		ability.setReflexes(Integer.valueOf(scrapDetailString(attributesColumn3, 5)));
-		ability.setCoverage(Integer.valueOf(scrapDetailString(attributesColumn3, 6)));
-		ability.setStamina(Integer.valueOf(scrapDetailString(attributesColumn3, 7)));
-		ability.setWeakFootUsage(Integer.valueOf(scrapDetailString(attributesColumn3, 8)));
-		ability.setWeakFootAccuracy(Integer.valueOf(scrapDetailString(attributesColumn3, 9)));
-		ability.setForm(Integer.valueOf(scrapDetailString(attributesColumn3, 10)));
-		ability.setInjuryResistance(Integer.valueOf(scrapDetailString(attributesColumn3, 11)));
-		//ability.setRating(Integer.valueOf(scrapDetailString(attributesColumn3, 13)));
+		ability.setTightPossession(Integer.valueOf(scrapDetailString(attributesColumn2, 3)));
+		ability.setLowPass(Integer.valueOf(scrapDetailString(attributesColumn2, 4)));
+		ability.setLoftedPass(Integer.valueOf(scrapDetailString(attributesColumn2, 5)));
+		ability.setFinishing(Integer.valueOf(scrapDetailString(attributesColumn2, 6)));	
+		ability.setHeading(Integer.valueOf(scrapDetailString(attributesColumn2, 7)));
+		ability.setPlaceKicking(Integer.valueOf(scrapDetailString(attributesColumn2, 8)));
+		ability.setCurl(Integer.valueOf(scrapDetailString(attributesColumn2, 9)));
+		ability.setSpeed(Integer.valueOf(scrapDetailString(attributesColumn2, 10)));
+		ability.setAcceleration(Integer.valueOf(scrapDetailString(attributesColumn2, 11)));
+		ability.setKickingPower(Integer.valueOf(scrapDetailString(attributesColumn2, 12)));
+		ability.setJump(Integer.valueOf(scrapDetailString(attributesColumn2, 13)));
+		ability.setPhysicalContact(Integer.valueOf(scrapDetailString(attributesColumn2, 14)));
+		ability.setBalance(Integer.valueOf(scrapDetailString(attributesColumn2, 15)));
+		
+		ability.setStamina(Integer.valueOf(scrapDetailString(attributesColumn3, 0)));
+		ability.setDefensiveAwareness(Integer.valueOf(scrapDetailString(attributesColumn3, 1)));
+		ability.setBallWinning(Integer.valueOf(scrapDetailString(attributesColumn3, 2)));
+		ability.setAggression(Integer.valueOf(scrapDetailString(attributesColumn3, 3)));
+		ability.setGkAwareness(Integer.valueOf(scrapDetailString(attributesColumn3, 4)));
+		ability.setGkcatching(Integer.valueOf(scrapDetailString(attributesColumn3, 5)));
+		ability.setGkClearing(Integer.valueOf(scrapDetailString(attributesColumn3, 6)));
+		ability.setGkReflexes(Integer.valueOf(scrapDetailString(attributesColumn3, 7)));
+		ability.setGkReach(Integer.valueOf(scrapDetailString(attributesColumn3, 8)));
+		ability.setWeakFootUsage(Integer.valueOf(scrapDetailString(attributesColumn3, 9)));
+		ability.setWeakFootAccuracy(Integer.valueOf(scrapDetailString(attributesColumn3, 10)));
+		ability.setForm(Integer.valueOf(scrapDetailString(attributesColumn3, 11)));
+		ability.setInjuryResistance(Integer.valueOf(scrapDetailString(attributesColumn3, 12)));
+		ability.setRating(Integer.valueOf(scrapDetailString(attributesColumn3, 14)));
 
 		return playerService.saveAbility(ability);
 	}
 	
-	public List<Scout> scrapScouts(Player player,Scrapper scrapper) {
+	public List<Combination> scrapScouts(Player player,Scrapper scrapper) {
 		log.info("Scrapping Scouts for {}",player.getId());
-		List<Scout> scoutList=null;
+		List<Combination> scoutList=null;
 		if(player!=null) {
-			scoutList= new ArrayList<Scout>();
+			scoutList= new ArrayList<Combination>();
 			
 			HtmlTable scoutTable = scrapper.getTable("//table[@class='scouts']");
 			List<HtmlTableRow> scoutRows = scoutTable.getRows();		
@@ -210,7 +213,7 @@ public class ScrapService {
 					String scout3 = scoutRow.getCell(3).asText();
 					String chance = scoutRow.getCell(4).asText().replace("%", "");
 					
-					Scout scout = new Scout();
+					Combination scout = new Combination();
 					scout.setPlayer(player);
 					scout.setChance(Integer.valueOf(chance));
 					scout.setLevel(Integer.valueOf(ballLevel));

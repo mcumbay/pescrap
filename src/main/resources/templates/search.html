@@ -16,7 +16,7 @@
 		<div class="row">
 			<h1>Search</h1>
 		</div>
-		<div class="row">
+		<div class="pes-card">
 		    <form method="POST" th:object="${searchPlayerForm}">
 		    	<div class="form-group">
 					<label>Min Speed:</label>
@@ -32,7 +32,8 @@
 			            th:if="${#fields.hasErrors('maxSpeed')}"
 			            th:errors="*{id}">Max Speed Error</span>
 		       	</div>
-		        <div><button class="btn btn-dark">Search!</button></div>
+		        <a class="btn btn-light btn-lg btn-block" th:href="@{/}">Home</a>
+		        <button class="btn btn-light btn-lg btn-block">Search!</button>
 		    </form>
 		</div>
 	</div>

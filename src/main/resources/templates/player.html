@@ -55,8 +55,21 @@
 							<div class="col"><label>Age:</label></div>
 							<div class="col"><span th:text="*{playerDetail.age}"></span> years</div>
 						</div>
+						<div class="row even-row">
+							<div class="col"><label>Foot:</label></div>
+							<div class="col"><span th:text="*{playerDetail.foot}"></span></div>
+						</div>
+						<div class="row odd-row">
+							<div class="col"><label>Condition:</label></div>
+							<div class="col"><span th:text="*{playerDetail.currentCondition}"></span></div>
+						</div>
+						<div class="row even-row">
+							<div class="col"><label>Position:</label></div>
+							<div class="col posFW"><span th:text="*{playerDetail.preferedPosition.code}"></span></div>
+						</div>
 						<div class="row">
 							<a class="btn btn-light btn-lg btn-block" th:href="@{/}">Home</a>
+							<a class="btn btn-light btn-lg btn-block" th:href="@{/players/{id}/abilities(id=${playerDetail.id.playerId})}">Abilities</a>
 						</div>
 					</div>
 				</div>
